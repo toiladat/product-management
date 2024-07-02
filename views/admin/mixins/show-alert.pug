@@ -1,0 +1,12 @@
+mixin mixins-success()
+  - if(messages.success)
+    div(
+      class="alert alert-success show-alert"
+      show-alert="800"
+    ) #{messages.success}
+mixin mixins-error()
+  - if(messages.error)
+    div(
+      class="alert alert-danger show-alert"
+      show-alert="1000"
+    ) #{messages.error}

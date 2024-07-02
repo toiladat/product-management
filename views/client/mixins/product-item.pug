@@ -1,0 +1,7 @@
+mixin product-item(item)
+  a(class="product" href= `/products/${item.slugTitle}`)
+    image(src=item.thumbnail)
+    h3 #{item.title}
+    span #{item.price}
+    strong #{item.status}
+

@@ -1,0 +1,12 @@
+mixin pagination(pagination)
+  nav
+    ul(class="pagination")
+      if(pagination.currPage>1)
+        li(class=("page-item"))
+            button(class="page-link" button-pagination = pagination.currPage-1) <<
+      - for(let i=1;i<=pagination.pageTotal;++i)
+        li(class=("page-item" + ( pagination.currPage == i ? " active" : "" )))
+          button(class="page-link" button-pagination = i) #{i}
+      if(pagination.currPage<pagination.pageTotal)
+        li(class=("page-item"))
+            button(class="page-link" button-pagination = pagination.currPage+1) >>

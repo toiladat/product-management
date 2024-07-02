@@ -1,3 +1,48 @@
 h1{
   color: blue;
 }
+*{
+  box-sizing: border-box;
+}
+.boxList a{
+  padding:10px;
+  margin: 10px;
+  background-color: #ddd;
+  color: #000;
+  text-decoration: none;
+  margin-top: 40px;
+}
+.productList{
+  display: flex;
+  
+  margin: 30px 30px;
+}
+.product{
+  padding: 30px 30px;
+  border-radius: 40px;
+  border: 1px solid #ddd;
+  margin-left: 20px;
+}
+.product img{
+  box-sizing: border-box;
+  width: 150px;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+
+}
+.product strong{
+  margin-left: 20px;
+}
+footer{
+  padding: 30px 30px;
+  margin-top: 20px;
+  background-color: antiquewhite;
+  text-align: center;
+}
+head{
+  padding: 30px 30px;
+  margin-top: 20px;
+  background-color: antiquewhite;
+  text-align: center;
+}

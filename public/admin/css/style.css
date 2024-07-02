@@ -1,0 +1,49 @@
+.body{
+  display: flex;
+  
+}
+.header {
+  padding: 20px 20p;
+}
+.innder-menu ul{
+  margin-right: 20px;
+  list-style-type: none;
+  padding-left: 10px;
+}
+.innder-menu ul li{
+  margin-top: 10px;
+  padding: 10px 10px;
+
+  background-color: #ddd;
+  border: 1px solid #000;
+}
+.innder-menu ul li a{
+  color: #000;
+  text-decoration: none;
+}
+
+/* show-alert */
+.show-alert {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  z-index: 999;
+}
+
+.show-alert.hidden {
+  display: none;
+}
+/* End show-alert */
+
+/*Upload image*/
+.image-preview{
+  box-sizing: border-box;
+  width: 100px;
+  height: auto;
+  aspect-ratio: 4/4;
+  margin: 10px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+
+}
+/*end Upload image*/

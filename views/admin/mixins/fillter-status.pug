@@ -1,0 +1,6 @@
+mixin fillter-status(listStatus)
+  each button in listStatus
+    button(
+      class="btn btn-sm ml-1 btn-outline-success"
+      button-status=button.value
+      ) #{button.lable}

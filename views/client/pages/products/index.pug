@@ -1,0 +1,9 @@
+extends ../../layouts/default.pug
+include ../../mixins/product-item.pug
+include ../../mixins/pagination.pug
+block main
+  h1 trang san pham san 
+  .productList
+    each item,index in Products
+      +product-item(item)
+  +pagination(pagination)

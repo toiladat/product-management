@@ -1,0 +1,11 @@
+mixin box-actions(link)
+  div(class="input-group" box-actions=link)
+    select(class="custom-select")
+      option(value='') Chọn hành động...
+      option(value='active') Hoạt động
+      option(value='inactive') Dừng hoạt động
+    .input-group-append
+      button(
+        class="btn btn-outline-secondary"
+        type='button'
+      ) Áp dụng
