@@ -62,12 +62,13 @@ const adminRoute = require('./Routes/admin/index.route');
 
 // set file public la file tinh
 // trong file public dung / de di vao cac file con
-app.use('/', express.static('public'))
+// co __dirname de khi deploy len vercel no biet di tu thu muc goc /public
+app.use('/', express.static(`${__dirname}/public`))
 
 
 //set thu muc view la thu muc mac dinh khi chay trinh duyet
 // mac dinh / se vao
-app.set("views", "./views")
+app.set("views", `${__dirname}/views`)
 
 // nhung template engine la pug
 app.set("view engine", "pug")
