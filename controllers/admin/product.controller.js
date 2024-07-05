@@ -152,9 +152,6 @@ module.exports.create = async (req, res) => {
 //[POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
 
-  if (req.file && req.file.filename) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`
-  }
   req.body.price = parseInt(req.body.price)
   req.body.discountPercentage = parseInt(req.body.discountPercentage)
   req.body.stock = parseInt(req.body.stock)
@@ -164,6 +161,8 @@ module.exports.createPost = async (req, res) => {
     let countProduct = await Product.countDocuments({})
     req.body.position = countProduct + 1
   }
+ 
+  console.log(req.body);
   const newProduct = new Product(req.body)
   newProduct.save()
   res.redirect(`/${config.prefixAdmin}/products/`)

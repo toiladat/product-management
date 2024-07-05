@@ -249,6 +249,7 @@ if( uploadImage){
     // const file= uploadImageInput.files[0]
     const [file]= uploadImageInput.files
     if(file){
+      // trả về một URL đặc biệt (blob URL) cho đối tượng file đã được chọn
       uploadImagePreview.src=URL.createObjectURL(file)
       uploadImagePreview.classList.add("image-preview")
     }

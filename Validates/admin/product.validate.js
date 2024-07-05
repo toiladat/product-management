@@ -1,9 +1,9 @@
-module.exports.createPost=(req,res,next)=>{
-  if(!req.body.title){
-    req.flash("error","Vui long nhap ten SP")
-    res.redirect(`/${config.prefixAdmin}/products/create`)
+module.exports.createPost = async (req, res, next) => {
+  if(!req.body.title) {
+    req.flash("error", "Tiêu đề không được để trống!");
+    res.redirect("back");
     return;
   }
-  // muon chay sang controller tiep thi phai co next()
-  next()
+
+  next();
 }
