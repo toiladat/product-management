@@ -26,7 +26,6 @@ buttonList.forEach((button) => {
 // set lai active cho buttons
 // lay ra value cua status tren url tra ve null neu khong co
 const statusButton = url.searchParams.get("status") || ""
-console.log(statusButton);
 //lay nut theo url
 // lay ra nui co val cua status tren url
 const buttonCurrent = document.querySelector(`[button-status="${statusButton}"]`)
@@ -95,7 +94,7 @@ if (listButtonChangeStatus.length > 0) {
 const CheckAll = document.querySelector("input[name='checkAll']")
 const listCheckItem = document.querySelectorAll("input[name='checkItem']")
 // console.log(CheckAll);
-if(CheckAll){
+if (CheckAll) {
   CheckAll.addEventListener("click", () => {
     listCheckItem.forEach(item => {
       item.checked = CheckAll.checked
@@ -183,15 +182,13 @@ if (listButtonDelete.length > 0) {
 const listButtonRetrieve = document.querySelectorAll('[button-retrieve]')
 listButtonRetrieve.forEach(button => {
   button.addEventListener('click', () => {
-    const id = button.getAttribute('button-retrieve')
-    fetch('/admin/trash/products/retrieve', {
+    const link = button.getAttribute('link')
+    console.log(link);
+    fetch(link, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          id: id
-        })
+          'Content-Type': 'application/json'
+        }
       })
       .then(res => res.json())
       .then(data => {
@@ -199,8 +196,33 @@ listButtonRetrieve.forEach(button => {
           window.location.reload()
       })
   })
+
 })
+
 //end retrieve record
+
+// delete parmenant record
+const listButtonDelPar = document.querySelectorAll("[button-delete-permanent]")
+console.log(listButtonDelPar);
+if (listButtonDelPar.length > 0) {
+  listButtonDelPar.forEach(item => {
+    item.addEventListener("click", () => {
+      const link = item.getAttribute("link")
+      fetch(link,{
+        method:"DELETE",
+        "Content-Type":"application/json"
+      })
+      .then(res=>res.json())
+      .then(data=>{
+        if(data.code==200){
+          window.location.reload()
+        }
+      })
+    })
+  })
+}
+
+// end delete parmenant record
 
 
 
@@ -214,14 +236,14 @@ if (listInputPosition.length > 0) {
       const link = input.getAttribute('link')
       console.log(link);
       fetch(link, {
-          method: "PATCH",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            position: position
-          })
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          position: position
         })
+      })
     })
   })
 }
@@ -230,29 +252,71 @@ if (listInputPosition.length > 0) {
 
 // show alert
 const showAlert = document.querySelector('[show-alert]')
-if(showAlert){
-  const time =parseInt(showAlert.getAttribute('show-alert')) || 3000
+if (showAlert) {
+  const time = parseInt(showAlert.getAttribute('show-alert')) || 3000
   setTimeout(() => {
     showAlert.classList.add('hidden')
-  },time );
+  }, time);
 }
 // end show alert
 
 // upload image
 
-const uploadImage= document.querySelector("[upload-image]")
-if( uploadImage){
-  const uploadImageInput= uploadImage.querySelector("[upload-image-input]")
-  const uploadImagePreview=uploadImage.querySelector("[upload-image-preview]")
+const uploadImage = document.querySelector("[upload-image]")
 
-  uploadImageInput.addEventListener("change",()=>{
+if (uploadImage) {
+  const uploadImageInput = uploadImage.querySelector("[upload-image-input]")
+  const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]")
+
+  uploadImageInput.addEventListener("change", () => {
     // const file= uploadImageInput.files[0]
-    const [file]= uploadImageInput.files
-    if(file){
+    const [file] = uploadImageInput.files
+    if (file) {
       // trả về một URL đặc biệt (blob URL) cho đối tượng file đã được chọn
-      uploadImagePreview.src=URL.createObjectURL(file)
+      uploadImagePreview.src = URL.createObjectURL(file)
       uploadImagePreview.classList.add("image-preview")
     }
   })
 }
 // end upload image
+
+// sort
+
+
+
+const sort = document.querySelector("[sort]")
+if( sort){
+  let url= new URL(window.location.href)
+  const selectBox= sort.querySelector("[sort-select]")
+ 
+  selectBox.addEventListener("change",()=>{
+    const [sortKey,sortValue]= selectBox.value.split('-');
+    if(sortKey && sortValue){
+      url.searchParams.set("sortKey",sortKey)
+      url.searchParams.set("sortValue",sortValue)
+
+      window.location.href=url.href
+    }
+  })
+}
+
+
+
+//set selected cho select
+const defaultSortKey= url.searchParams.get("sortKey")
+const defaultSortValue= url.searchParams.get("sortValue")
+if( defaultSortKey &&defaultSortValue){
+  const defaultSeletct = sort.querySelector(`option[value="${defaultSortKey}-${defaultSortValue}"]`)
+  defaultSeletct.selected=true
+}
+
+// clear lai select
+const clearSort = sort.querySelector("[sort-clear]")
+if( clearSort){
+  clearSort.addEventListener("click",()=>{
+    url.searchParams.delete("sortKey")
+    url.searchParams.delete("sortValue")
+    window.location.href=url.href
+  })
+}
+//end sort

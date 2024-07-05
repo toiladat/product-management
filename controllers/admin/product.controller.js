@@ -30,11 +30,15 @@ module.exports.index = async (req, res) => {
   // pagination
   const paginationHelpers = require('../../helpers/pagination.helper');
   const pagination = await paginationHelpers(req, find)
-
-
-
   // end pagination
-
+  //sort
+  const sort={}
+  
+  if(req.query.sortKey&& req.query.sortValue)
+    sort[req.query.sortKey]=req.query.sortValue
+  else
+    sort.position="desc"
+  //end sort
 
 
   // tim kiem theo object find, limit, skip
@@ -42,9 +46,7 @@ module.exports.index = async (req, res) => {
     .find(find)
     .limit(pagination.productLimit)
     .skip(pagination.productSkip)
-    .sort({
-      position: 'desc'
-    })
+    .sort(sort)
 
 
 

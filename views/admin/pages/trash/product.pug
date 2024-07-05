@@ -56,10 +56,13 @@ block main
              ) Dừng hoạt động
         td
           button(class="btn btn-success btn-sm" 
-          button-retrieve=item._id
+          link=`/${prefixAdmin}/trash/products/retrieve/${item._id}`
+          button-retrieve
           ) Khôi phục
+
           button(
           class="btn btn-danger btn-sm ml-1"
-          button-delete-permanent=item._id
-          ) Xóa
+          button-delete-permanent
+          link=`/${prefixAdmin}/trash/products/delete-permanent/${item._id}`
+          ) Xóa vinh vien
   +pagination(pagination)

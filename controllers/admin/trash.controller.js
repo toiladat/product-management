@@ -51,14 +51,24 @@ module.exports.product = async (req, res) => {
     pagination: pagination
   })
 };
+//[PATCH] '/products/retrieve/:id'
 module.exports.retrieveProduct=async(req,res)=>{
-  const id=req.body.id;
+  const id=req.params.id
+  
   await Product.updateOne({
     _id:id
   },{
     deleted:false
   })
+  req.flash("success","Khoi phuc thanh cong")
   res.json({code:200})
+}
+//[DELETE] /products/delete-permanent/:id
+module.exports.deleteProdcutPermanent=async(req,res)=>{
+ const id=req.params.id
+ await Product.deleteOne({_id:id})
+ req.flash("success","Xoa san pham thanh cong")
+ res.json({code:200})
 }
 module.exports.user = (req, res) => {
   res.send("trash user");
