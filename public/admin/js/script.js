@@ -311,7 +311,7 @@ if( defaultSortKey &&defaultSortValue){
 }
 
 // clear lai select
-const clearSort = sort.querySelector("[sort-clear]")
+const clearSort = document.querySelector("[sort-clear]")
 if( clearSort){
   clearSort.addEventListener("click",()=>{
     url.searchParams.delete("sortKey")

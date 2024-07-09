@@ -31,13 +31,12 @@ route.post('/create',
   uploadToCloud.uploadSingle,
   validateProduct.createPost,
   productController.createPost
-
 )
+// khi ben fe co file trong form thi phai dung multer de dinh dang thi ben be moi nhan duoc 
 route.patch('/update/:id',
   upload.single("thumbnail"),
+  uploadToCloud.uploadSingle,
   validateProduct.createPost,
   productController.updateProductPatch)
-
-
 
 module.exports = route

@@ -1,5 +1,8 @@
 const Product = require('../../model/product.model');
 const config = require('../../config/system');
+const productCategory = require('../../model/product-category.model');
+const createTreeHelper=require('../../helpers/createTree.helper');
+
 module.exports.index = async (req, res) => {
   // tao object tim theo tieu chi do
   const find = {
@@ -147,8 +150,11 @@ module.exports.changePosition = async (req, res) => {
 }
 // [GET]/admin/products/create
 module.exports.create = async (req, res) => {
+  const categories= await productCategory.find({deleted:false})
+  const newCategories= createTreeHelper(categories)
   res.render(`admin/pages/products/create.pug`, {
-    pageTitle: "Thêm mới sản phẩm"
+    pageTitle: "Thêm mới sản phẩm",
+    categories:newCategories
   })
 }
 //[POST] /admin/products/create
@@ -176,10 +182,12 @@ module.exports.updateProductGet = async (req, res) => {
     const product = await Product.findOne({
       _id: id
     })
-
+    const categories= await productCategory.find({deleted:false})
+    const newCategories= createTreeHelper(categories)
     res.render(`admin/pages/products/update.pug`, {
       pageTitle: "chinh sua san pham",
-      item: product
+      item: product,
+      categories:newCategories
     })
   } catch {
     req.flash("error", "San Pham Khong ton tai")

@@ -3,7 +3,7 @@ const app = express()
 require('dotenv').config()
 const port = process.env.PORT
 
-
+const path=require('path');
 
 
 // nhung file config de ket noi voi database
@@ -49,10 +49,12 @@ app.use(methodOverride('_method'))
 
 
 
-
-
-
-
+// nhung tinymce vao du an
+//tra ve 1 chuoi html tu 1 doan minh nhap vao
+// new route to the tinymce node module
+//path.join de noi chuoi =>path
+//khoi tao route khi truy cap /tinymce = /product-management/node_modules/tinymce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 
 

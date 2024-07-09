@@ -4,8 +4,6 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/box-actions.pug
 block main
-
-
   h1(class="mb-4") Quản lý sản phẩm
   .card.mb-3
     .card-header Bộ lọc và Tìm kiếm
@@ -103,4 +101,3 @@ block main
             button-delete=item._id
           ) Xóa
   +pagination(pagination)
-  

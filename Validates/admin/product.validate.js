@@ -4,6 +4,5 @@ module.exports.createPost = async (req, res, next) => {
     res.redirect("back");
     return;
   }
-
   next();
 }

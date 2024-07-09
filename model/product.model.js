@@ -9,6 +9,7 @@ const {Schema}= mongoose
 const productSchema = new Schema(
   {
     title:String,
+    productCategoryId:String,
     description:String,
     discountPercentage:Number,
     stock:Number,
