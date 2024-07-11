@@ -320,3 +320,50 @@ if( clearSort){
   })
 }
 //end sort
+
+// phân quyền
+const tablePermissions =document.querySelector("[table-permissions]");
+if(tablePermissions){
+  const buttonSubmit=document.querySelector("[button-submit]")
+  buttonSubmit.addEventListener("click",()=>{
+    const roles=[]
+    const roleId=tablePermissions.querySelectorAll("[role-id]")
+    for(const element of roleId){
+      const idElement =element.getAttribute("role-id");
+      const role={
+        id:idElement,
+        permission:[]
+      }
+
+      const inputCheckedList=tablePermissions.querySelectorAll(`input[data-id="${idElement}"]:checked`)
+      inputCheckedList.forEach(item=>{
+        const dataName=item.getAttribute("data-name")
+        role.permission.push(dataName)
+      })
+      roles.push(role)
+    }
+    const link=buttonSubmit.getAttribute('button-submit')
+    fetch(link,{
+      method:"PATCH",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(roles)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.code==200){
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: data.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    })
+  })
+
+}
+
+// hết phân quyền
