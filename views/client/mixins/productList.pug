@@ -1,0 +1,12 @@
+mixin productList(productList)
+  each item in productList
+    div(class="product" )
+      image(src=item.thumbnail)
+      h3 #{item.title}
+      div Giá: 
+        del #{item.price}
+        strong(class="ml-3") #{item.newPrice}
+      div hiện còn: #{item.stock}
+      a(class="ml-3" href= `/products/detail/${item.slugTitle}`) xem chi tiết
+
+

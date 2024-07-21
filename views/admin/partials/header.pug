@@ -1,1 +1,10 @@
-header header
+
+div(class="col-9 text-right")
+  a(
+    href=`/${prefixAdmin}/profile`
+    class="btn btn-info btn-sm"
+  ) #{account.fullName}
+  a(
+    href=`/${prefixAdmin}/auth/logout`
+    class="btn btn-danger btn-sm ml-2"
+  ) Đăng xuất

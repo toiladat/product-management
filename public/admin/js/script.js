@@ -208,16 +208,16 @@ if (listButtonDelPar.length > 0) {
   listButtonDelPar.forEach(item => {
     item.addEventListener("click", () => {
       const link = item.getAttribute("link")
-      fetch(link,{
-        method:"DELETE",
-        "Content-Type":"application/json"
-      })
-      .then(res=>res.json())
-      .then(data=>{
-        if(data.code==200){
-          window.location.reload()
-        }
-      })
+      fetch(link, {
+          method: "DELETE",
+          "Content-Type": "application/json"
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == 200) {
+            window.location.reload()
+          }
+        })
     })
   })
 }
@@ -285,17 +285,17 @@ if (uploadImage) {
 
 
 const sort = document.querySelector("[sort]")
-if( sort){
-  let url= new URL(window.location.href)
-  const selectBox= sort.querySelector("[sort-select]")
- 
-  selectBox.addEventListener("change",()=>{
-    const [sortKey,sortValue]= selectBox.value.split('-');
-    if(sortKey && sortValue){
-      url.searchParams.set("sortKey",sortKey)
-      url.searchParams.set("sortValue",sortValue)
+if (sort) {
+  let url = new URL(window.location.href)
+  const selectBox = sort.querySelector("[sort-select]")
 
-      window.location.href=url.href
+  selectBox.addEventListener("change", () => {
+    const [sortKey, sortValue] = selectBox.value.split('-');
+    if (sortKey && sortValue) {
+      url.searchParams.set("sortKey", sortKey)
+      url.searchParams.set("sortValue", sortValue)
+
+      window.location.href = url.href
     }
   })
 }
@@ -303,67 +303,136 @@ if( sort){
 
 
 //set selected cho select
-const defaultSortKey= url.searchParams.get("sortKey")
-const defaultSortValue= url.searchParams.get("sortValue")
-if( defaultSortKey &&defaultSortValue){
+const defaultSortKey = url.searchParams.get("sortKey")
+const defaultSortValue = url.searchParams.get("sortValue")
+if (defaultSortKey && defaultSortValue) {
   const defaultSeletct = sort.querySelector(`option[value="${defaultSortKey}-${defaultSortValue}"]`)
-  defaultSeletct.selected=true
+  defaultSeletct.selected = true
 }
 
 // clear lai select
 const clearSort = document.querySelector("[sort-clear]")
-if( clearSort){
-  clearSort.addEventListener("click",()=>{
+if (clearSort) {
+  clearSort.addEventListener("click", () => {
     url.searchParams.delete("sortKey")
     url.searchParams.delete("sortValue")
-    window.location.href=url.href
+    window.location.href = url.href
   })
 }
 //end sort
 
 // phân quyền
-const tablePermissions =document.querySelector("[table-permissions]");
-if(tablePermissions){
-  const buttonSubmit=document.querySelector("[button-submit]")
-  buttonSubmit.addEventListener("click",()=>{
-    const roles=[]
-    const roleId=tablePermissions.querySelectorAll("[role-id]")
-    for(const element of roleId){
-      const idElement =element.getAttribute("role-id");
-      const role={
-        id:idElement,
-        permission:[]
+const tablePermissions = document.querySelector("[table-permissions]");
+if (tablePermissions) {
+  const buttonSubmit = document.querySelector("[button-submit]")
+  buttonSubmit.addEventListener("click", () => {
+    const roles = []
+    const roleId = tablePermissions.querySelectorAll("[role-id]")
+    for (const element of roleId) {
+      const idElement = element.getAttribute("role-id");
+      const role = {
+        id: idElement,
+        permission: []
       }
 
-      const inputCheckedList=tablePermissions.querySelectorAll(`input[data-id="${idElement}"]:checked`)
-      inputCheckedList.forEach(item=>{
-        const dataName=item.getAttribute("data-name")
+      const inputCheckedList = tablePermissions.querySelectorAll(`input[data-id="${idElement}"]:checked`)
+      inputCheckedList.forEach(item => {
+        const dataName = item.getAttribute("data-name")
         role.permission.push(dataName)
       })
       roles.push(role)
     }
-    const link=buttonSubmit.getAttribute('button-submit')
-    fetch(link,{
-      method:"PATCH",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(roles)
-    })
-    .then(res=>res.json())
-    .then(data=>{
-      if(data.code==200){
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: data.message,
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-    })
+    const link = buttonSubmit.getAttribute('button-submit')
+    fetch(link, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(roles)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.code == 200) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: data.message,
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      })
   })
 
 }
-
 // hết phân quyền
+// const featureList = [{
+//     featureTitle: "Quan ly san pham",
+//     flags: [
+//       {
+//         flagTitle: "Xem",
+//         flag: "products_view"
+//       },
+//       {
+//         flagTitle: "Them",
+//         flag: "products_add"
+//       },
+//       {
+//         flagTitle: "Sua",
+//         flag: "products_edit"
+//       },
+//       {
+//         flagTitle: "Xoa",
+//         flag: "products_delete"
+//       }
+//     ]
+//   },
+//   {
+//     featureTitle: "Quan ly Danh muc san pham",
+//     flags: [{
+//         flagTitle: "Xem",
+//         flag: "roles_view"
+//       },
+//       {
+//         flagTitle: "Them",
+//         flag: "roles_add"
+//       },
+//       {
+//         flagTitle: "Sua",
+//         flag: "roles_edit"
+//       },
+//       {
+//         flagTitle: "Xoa",
+//         flag: "roles_delete"
+//       },
+//       {
+//         flagTitle: "Phan quyen",
+//         flag: "roles_permission"
+//       }
+//     ]
+//   },
+//   {
+//     featureTitle: "Quan ly Tai khoan",
+//     flags: [{
+//         flagTitle: "Xem",
+//         flag: "accounts_view"
+//       },
+//       {
+//         flagTitle: "Them",
+//         flag: "accounts_add"
+//       },
+//       {
+//         flagTitle: "Sua",
+//         flag: "accounts_edit"
+//       },
+//       {
+//         flagTitle: "Xoa",
+//         flag: "accounts_delete"
+//       },
+//       {
+//         flagTitle: "Phan quyen",
+//         flag: "accounts_permission"
+//       }
+//     ]
+//   }
+// ]

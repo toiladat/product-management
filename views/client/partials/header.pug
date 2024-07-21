@@ -1,1 +1,29 @@
-head header
+include ../mixins/sub-menu.pug
+header.header
+  .container
+    .row.align-items-center
+      .col-6
+        ul
+          li
+            a(href="/") Trang chủ
+          li(class="sub-menu")
+            a(href="/products") Sản phẩm
+            if(categories)
+              +sub-menu(categories)
+      .col-6
+        form(
+          action="/search"
+          method="GET"
+        ) 
+          div(class="form-group d-flex mb-0")
+            input(
+              type="text"
+              placeholder="Nhập từ khóa..."
+              class="form-control"
+              name="keyword"
+              value=keyword
+            )
+            button(
+              type="submit"
+              class="btn btn-primary"
+            ) Tìm

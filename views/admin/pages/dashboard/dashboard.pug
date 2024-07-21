@@ -1,3 +1,10 @@
 extends ../../layouts/default.pug
 block main
-  h1 trang chu 
+  h1 #{role.title}
+  h2 #{account.fullName}
+  div #{account.email}
+  div #{account.phone}
+  img(
+    src=account.avatar
+    width="150px"
+    )

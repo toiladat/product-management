@@ -25,7 +25,7 @@ block main
         th STT
         th Hình ảnh
         th Tiêu đề
-        th Giá
+        th Xóa bởi
         th Trạng thái
         th Hành động
     tbody 
@@ -42,7 +42,7 @@ block main
             height="auto"
           )
         td #{item.title}
-        td #{item.price}$
+        td #{item.deletedByFullName}
         td
           if(item.status == "active")
             button(link=`/${prefixAdmin}/products/changeStatus/inactive/${item._id}`

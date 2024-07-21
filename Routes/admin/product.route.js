@@ -38,5 +38,5 @@ route.patch('/update/:id',
   uploadToCloud.uploadSingle,
   validateProduct.createPost,
   productController.updateProductPatch)
-
+route.get(`/detail/:id`,productController.detail)
 module.exports = route

@@ -1,3 +1,4 @@
+const Account = require("../../model/account.model");
 const Product = require("../../model/product.model");
 module.exports.product = async (req, res) => {
   const find = {
@@ -30,8 +31,16 @@ module.exports.product = async (req, res) => {
     .limit(pagination.productLimit)
     .skip(pagination.productSkip);
 
-  const fillterStatus = [
-    {
+  for (item of products) {
+   
+    if (item.deletedBy) {
+      const deletedBy = await Account.findOne({
+        _id: item.deletedBy
+      })
+      item.deletedByFullName=deletedBy.fullName
+    }
+  }
+  const fillterStatus = [{
       lable: "Tất cả",
       value: "",
     },
@@ -52,23 +61,42 @@ module.exports.product = async (req, res) => {
   })
 };
 //[PATCH] '/products/retrieve/:id'
-module.exports.retrieveProduct=async(req,res)=>{
-  const id=req.params.id
-  
+module.exports.retrieveProduct = async (req, res) => {
+try{
+  const id = req.params.id
+
   await Product.updateOne({
-    _id:id
-  },{
-    deleted:false
+    _id: id
+  }, {
+    deleted: false,
+    deletedBy:res.locals.account.id
   })
-  req.flash("success","Khoi phuc thanh cong")
-  res.json({code:200})
+  req.flash("success", "Khoi phuc thanh cong")
+  res.json({
+    code: 200
+  })
+}
+catch{
+  req.flash("error","San pham khong ton tai")
+  res.redirect("back")
+}
 }
 //[DELETE] /products/delete-permanent/:id
-module.exports.deleteProdcutPermanent=async(req,res)=>{
- const id=req.params.id
- await Product.deleteOne({_id:id})
- req.flash("success","Xoa san pham thanh cong")
- res.json({code:200})
+module.exports.deleteProdcutPermanent = async (req, res) => {
+try{
+  const id = req.params.id
+  await Product.deleteOne({
+    _id: id
+  })
+  req.flash("success", "Xoa san pham thanh cong")
+  res.json({
+    code: 200
+  })
+}
+catch{
+  req.flash("error","Xoa that bai")
+  res.redirect("back")
+}
 }
 module.exports.user = (req, res) => {
   res.send("trash user");

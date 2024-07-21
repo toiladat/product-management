@@ -3,15 +3,23 @@
     ul
       li
         a(href=`/${prefixAdmin}/dashboard`) tổng quan
-      li
-        a(href=`/${prefixAdmin}/products`) sản phẩm
-      li
-        a(href=`/${prefixAdmin}/products-category`) danh mục sản phẩm
+      if(role.permission.includes("products_view"))
+        li
+          a(href=`/${prefixAdmin}/products`) sản phẩm
+      if(role.permission.includes("products-category_view"))      
+        li
+          a(href=`/${prefixAdmin}/products-category`) danh mục sản phẩm
+      //- if(role.permission.includes("trash_view"))
       li
         a(href=`/${prefixAdmin}/trash`) thùng rác
-      li
-        a(href=`/${prefixAdmin}/roles`) Nhóm quyền
-      li  
-        a(href=`/${prefixAdmin}/roles/permissions`) Phân quyền
-
-        
+      if(role.permission.includes("roles_view"))
+        li
+          a(href=`/${prefixAdmin}/roles`) Nhóm quyền
+      if(role.permission.includes("roles_permission"))
+        li  
+          a(href=`/${prefixAdmin}/roles/permissions`) Phân quyền
+      if(role.permission.includes("accounts_view"))
+        li  
+          a(href=`/${prefixAdmin}/accounts/`) Tài khoản AD
+      li 
+        a(href=`/${prefixAdmin}/auth/logout`) Đăng xuất

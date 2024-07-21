@@ -1,0 +1,7 @@
+extend ../../layouts/default.pug
+include ../../mixins/productList.pug
+block main
+  .container-fluid
+    h1 Kết quả tìm kiếm: #{keyword}
+    .d-flex
+      +productList(products)

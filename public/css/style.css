@@ -12,24 +12,31 @@ h1{
   text-decoration: none;
   margin-top: 40px;
 }
+
 .productList{
   display: flex;
   
   margin: 30px 30px;
 }
 .product{
-  padding: 30px 30px;
-  border-radius: 40px;
+  padding: 15px 15px;
+  border-radius: 20px;
   border: 1px solid #ddd;
   margin-left: 20px;
+  width: 200px;
 }
 .product img{
   box-sizing: border-box;
-  width: 150px;
+  width: 100%;
   height: auto;
   aspect-ratio: 1/1;
   object-fit: cover;
-
+}
+.product h3{
+  font-size: 18px;
+}
+.product del{
+  color: red;
 }
 .product strong{
   margin-left: 20px;
@@ -40,9 +47,132 @@ footer{
   background-color: antiquewhite;
   text-align: center;
 }
-head{
-  padding: 30px 30px;
-  margin-top: 20px;
-  background-color: antiquewhite;
+.header{
+  padding: 10px 10px;
+  margin-top: 0px;
+  background-color: rgb(229, 224, 216);
   text-align: center;
+}
+.header ul{
+  list-style-type: none;
+  display: flex;
+}
+.header ul li{
+  margin-left: 10px;
+  padding: 10px 10px;
+  background-color: aliceblue;
+}
+
+/* End product-item */
+
+/* sub-menu */
+.sub-menu {
+  position: relative;
+  z-index: 999;
+}
+
+.sub-menu ul {
+  position: absolute;
+  left: 100%;
+  top: 70%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #eae9e9;
+  min-width: 180px;
+  display: none;
+}
+
+.sub-menu ul li {
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sub-menu:hover > ul {
+  display: block;
+}
+
+.sub-menu ul li {
+  position: relative;
+}
+
+.sub-menu ul li ul {
+  
+  right: 0%;
+  top: 0;
+}
+
+.sub-menu ul li:hover > ul {
+  display: block;
+}
+/* End sub-menu */
+
+.notable{
+  display: flex;
+}
+.notable-title{
+  color: var(--blue);
+  font-size: 29px;
+  font-weight: 700;
+  margin: 10px 15px;
+}
+/* product-detail */
+.product-detail .inner-thumb{
+  width: 400px;
+}
+.product-detail .inner-thumb img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+.product-detail .inner-title {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.product-detail .inner-category {
+  margin-bottom: 10px;
+}
+
+.product-detail .inner-price-new {
+  color: green;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.product-detail .inner-price-old {
+  color: red;
+  font-weight: 600;
+  font-size: 20px;
+  text-decoration: line-through;
+  margin-bottom: 10px;
+}
+
+.product-detail .inner-percent {
+  margin-bottom: 10px;
+}
+
+.product-detail .inner-percent span {
+  color: #fff;
+  background: red;
+  font-weight: 600;
+  display: inline-block;
+  padding: 3px 6px;
+  border-radius: 8px;
+}
+
+.product-detail .inner-stock {
+  margin-bottom: 10px;
+}
+
+.product-detail .inner-stock span {
+  color: #fff;
+  background: green;
+  font-weight: 600;
+  display: inline-block;
+  padding: 3px 6px;
+  border-radius: 8px;
 }

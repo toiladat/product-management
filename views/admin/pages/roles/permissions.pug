@@ -1,70 +1,33 @@
 extends ../../layouts/default.pug
-
 block main
-  h1(class="mb-4") Phân quyền
+  h1.mb-4 Phân quyền
 
-  if(records) 
-    div(class="text-right")
-      button(
+  if (records)
+    div.text-right
+      button.btn.btn-primary.mb-3(
         type="submit"
-        class="btn btn-primary mb-3"
         button-submit=`/${prefixAdmin}/roles/permissions`
       ) Cập nhật
- 
-    table(
-      class="table table-hover table-sm"
-      table-permissions
-    )
+
+    table.table.table-hover.table-sm(table-permissions)
       thead
         tr
           th Tính năng
           each item in records
-            th(
-              class="text-center"
-              role-id=item.id
-            ) #{item.title}
+            th.text-center(role-id=item.id) #{item.title}
       tbody
-        tr
-          td(colspan="4")
-            b Danh mục sản phẩm
-        tr
-          td Xem
-          each item in records
-            td(class="text-center")
-              input(
-                type="checkbox" 
-                data-id=item.id 
-                data-name="products-category_view"
-                checked=(item.permission.includes("products-category_view") ? true : false)
-              )
-        tr
-          td Thêm mới
-          each item in records
-            td(class="text-center")
-              input(
-                type="checkbox" 
-                data-id=item.id
-                data-name="products-category_create"
-                checked=(item.permission.includes("products-category_create") ? true : false)
-
-              )
-        tr
-          td Chỉnh sửa
-          each item in records
-            td(class="text-center")
-              input(
-                type="checkbox" 
-                data-id=item.id
-                data-name="products-category_edit"
-                checked=(item.permission.includes("products-category_edit") ? true : false)
-              )
-        tr
-          td Xóa
-          each item in records
-            td(class="text-center")
-              input(
-                type="checkbox" 
-                data-id=item.id
-                data-name="products-category_delete"
-                checked=(item.permission.includes("products-category_delete") ? true : false)
-              )
+        each feature in featureList
+          tr
+            td(colspan=records.length + 1)
+              b #{feature.featureTitle}
+          each element in feature.flags
+            tr
+              td #{element.flagTitle}
+              each item in records
+                td.text-center
+                  input(
+                    type="checkbox"
+                    data-id=item.id
+                    data-name=element.flag
+                    checked=(item.permission.includes(element.flag) ? true : false)
+                  )

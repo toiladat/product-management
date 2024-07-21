@@ -1,0 +1,41 @@
+extends ../../layouts/default.pug
+
+block main
+  if(role.permission.includes("products_view"))
+    .container.my-3
+      .row
+        .col-12
+          if (product.title)
+            h1(class="mb-4") #{product.title}
+
+          if (product.price)
+            div(class="mb-4") Giá: <b>#{product.price}$</b>
+
+          if (product.discountPercentage)
+            div(class="mb-4") Giảm giá: <b>#{product.discountPercentage}%</b>
+
+          if (product.stock)
+            div(class="mb-4") Còn lại: <b>#{product.stock}</b>
+
+          if (product.thumbnail)
+            div(class="mb-4")
+              img(
+                src=product.thumbnail
+                style="width: 100px"
+              )
+
+          if (product.position)
+            div(class="mb-4") Vị trí: <b>#{product.position}</b>
+
+          if (product.description)
+            div(class="mb-4") !{product.description}
+          if(product.createdBy)
+            h3 Sản phẩm được tạo bởi
+            div(class="mb-4") #{product.createdByFullName}
+            div(class="mb-4") #{product.createdByEmail}
+            div(class="mb-4") #{product.createdAtFormat}
+          if(product.updatedBy)
+            h3 Sản phẩm chỉnh sửa lần cuối bởi
+            div(class="mb-4") #{product.updatedByFullName}
+            div(class="mb-4") #{product.updatedByEmail}
+            div(class="mb-4") #{product.updatedAtFormat}

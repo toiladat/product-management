@@ -17,6 +17,10 @@ const productSchema = new Schema(
     position:Number,
     price:Number,
     status:String,
+    createdBy:String,
+    notable:String,
+    updatedBy:String,
+    deletedBy:String,
     deleted:{
       type:Boolean,
       default:false

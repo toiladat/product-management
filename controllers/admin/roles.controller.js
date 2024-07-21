@@ -68,8 +68,49 @@ module.exports.permissions = async (req, res) => {
   const record = await Role.find({
     deleted: false
   })
+  const featureList = [
+    {
+      featureTitle: "Quản lý sản phẩm",
+      flags: [
+        { flagTitle: "Xem", flag: "products_view" },
+        { flagTitle: "Thêm", flag: "products_add" },
+        { flagTitle: "Sửa", flag: "products_edit" },
+        { flagTitle: "Xóa", flag: "products_delete" }
+      ]
+    },
+    {
+      featureTitle: "Quản lý danh mục sản phẩm",
+      flags: [
+        { flagTitle: "Xem", flag: "products-category_view" },
+        { flagTitle: "Thêm", flag: "products-category_add" },
+        { flagTitle: "Sửa", flag: "products-category_edit" },
+        { flagTitle: "Xóa", flag: "products-category_delete" }
+      ]
+    },
+    {
+      featureTitle: "Quản lý tài khoản",
+      flags: [
+        { flagTitle: "Xem", flag: "accounts_view" },
+        { flagTitle: "Thêm", flag: "accounts_add" },
+        { flagTitle: "Sửa", flag: "accounts_edit" },
+        { flagTitle: "Xóa", flag: "accounts_delete" }
+      ]
+    },
+    {
+      featureTitle: "Nhóm quyền",
+      flags: [
+        { flagTitle: "Xem", flag: "roles_view" },
+        { flagTitle: "Thêm", flag: "roles_add" },
+        { flagTitle: "Sửa", flag: "roles_edit" },
+        { flagTitle: "Xóa", flag: "roles_delete" },
+        { flagTitle: "Phân quyền", flag: "roles_permission" }
+      ]
+    }
+  ]
+  
   res.render(`admin/pages/roles/permissions.pug`, {
-    records: record
+    records: record,
+    featureList:featureList
   })
 }
 //[PATCh]/admin/roles/permission

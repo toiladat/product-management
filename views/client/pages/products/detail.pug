@@ -1,30 +1,51 @@
 extends ../../layouts/default.pug
 
 block main
-  .container.my-3
-    .row
-      .col-12
-        if (product.title)
-          h1(class="mb-4") #{product.title}
+  .product-detail
+    .container.my-5
+      .row
+        .col-6
+          .inner-thumb
+            img(src=product.thumbnail, alt=product.title width="300px" height="400")
+        .col-6
+          h1(class="inner-title") #{product.title}
 
-        if (product.price)
-          div(class="mb-4") Giá: <b>#{product.price}$</b>
+          if (product.category)
+            div(class="inner-category")
+              span Danh mục: 
+              a(href=`/products/${product.category.slug}`) #{product.category.title}
 
-        if (product.discountPercentage)
-          div(class="mb-4") Giảm giá: <b>#{product.discountPercentage}%</b>
+          if (product.newPrice)
+            div(class="inner-price-new") Giá mới: #{product.newPrice}$
 
-        if (product.stock)
-          div(class="mb-4") Còn lại: <b>#{product.stock}</b>
+          if (product.price)
+            div(class="inner-price-old") Giá cũ: #{product.price}$
 
-        if (product.thumbnail)
-          div(class="mb-4")
-            img(
-              src=product.thumbnail
-              style="width: 100px"
+          if (product.discountPercentage)
+            div(class="inner-percent") Giảm tới <span>#{product.discountPercentage}%</span>
+
+          if (product.stock)
+            div(class="inner-stock") Còn lại <span>#{product.stock}</span> sản phẩm
+
+          form(
+            action=`/cart/add/${product.id}`
+            method="POST"
+          )
+            input(
+              class="form-control mb-2"
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+              max=product.stock
             )
-
-        if (product.position)
-          div(class="mb-4") Vị trí: <b>#{product.position}</b>
-
-        if (product.description)
-          div(class="mb-4") #{product.description}
+            button(
+              type="submit"
+              class="btn btn-success btn-block"
+            ) Thêm vào giỏ hàng
+      hr
+    .container.my-5
+      .row
+        .col-12
+          h2 Mô tả sản phẩm
+          .inner-desc !{product.description}
