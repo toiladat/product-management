@@ -10,6 +10,8 @@ header.header
             a(href="/products") Sản phẩm
             if(categories)
               +sub-menu(categories)
+          li
+            a(href='/cart') Giỏ Hàng (#{totalProducts})
       .col-6
         form(
           action="/search"
