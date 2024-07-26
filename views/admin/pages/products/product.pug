@@ -64,7 +64,7 @@ block main
       each item, index in products
         tr 
           td 
-            input(type="checkbox" name="checkItem" value=item._id)
+            input(type="checkbox" name="checkItem" value=item.productId)
           td #{index+1}
           td
             img(

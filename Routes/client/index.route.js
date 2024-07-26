@@ -4,6 +4,7 @@ const categoryMiddeware=require('../../middewares/client/category.middewares');
 const searchRoute=require('./search.route');
 const cartMiddeware=require('../../middewares/client/cart.middewares');
 const cartRoute=require('./cart.route');
+const checkoutRoute=require('./checkout.route');
 module.exports= (app)=>{
   // su dung cho tat ca cac route
   // res.locals.categories duoc nhung o tat ca file pug
@@ -12,4 +13,5 @@ module.exports= (app)=>{
   app.use('/products',productRoute)
   app.use('/search',searchRoute)
   app.use('/cart',cartRoute)
+  app.use('/checkout',checkoutRoute)
 }

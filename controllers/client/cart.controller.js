@@ -2,6 +2,7 @@ const Cart = require('../../model/cart.model');
 const product = require('../../model/product.model');
 //[GET] /cart
 module.exports.index = async (req, res) => {
+try{
   const cartId = req.cookies.cartId
   const cart = await Cart.findOne({
     _id: cartId
@@ -26,6 +27,11 @@ module.exports.index = async (req, res) => {
     pageTitle: "Giỏ hàng",
     cartDetail: cart
   })
+}
+catch{
+  req.flash("error","Vui long truy cap lai")
+  res.redirect("back")
+}
 }
 
 //[POST] /cart/add/:productId
@@ -100,6 +106,7 @@ module.exports.delete = async (req, res) => {
 }
 //[GET]/cart/update/:productId/:quantity
 module.exports.update = async (req, res) => {
+try{
   const cartId = req.cookies.cartId
   const {
     productId,
@@ -114,4 +121,9 @@ module.exports.update = async (req, res) => {
     }
   })
   res.redirect('back')
+}
+catch{
+  req.flash("error","Vui long truy cap lai")
+  res.redirect('back')
+}
 }

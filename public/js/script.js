@@ -26,6 +26,28 @@ if(quantityList.length>0){
     })
   })
 }
-
-
 //hết cập nhật số lượng sản phẩm trong giỏ hàng
+
+const CheckAll = document.querySelector("input[name='checkAll']")
+const listCheckItem = document.querySelectorAll("input[name='checkItem']")
+// console.log(CheckAll);
+if (CheckAll) {
+  CheckAll.addEventListener("click", () => {
+    listCheckItem.forEach(item => {
+      item.checked = CheckAll.checked
+    })
+  })
+}
+
+
+
+listCheckItem.forEach(item => {
+  item.addEventListener("click", () => {
+    const listCheckItemChecked = document.querySelectorAll("input[name='checkItem']:checked")
+    CheckAll.checked = listCheckItemChecked.length == listCheckItem.length ? true : false
+
+    
+
+  })
+})
+// end checkAll

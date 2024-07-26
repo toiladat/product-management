@@ -1,0 +1,4 @@
+1, xác thực 1 email cho bên admin
+2, chọn sản phẩm để thanh toán
+3, làm chức năng chọn địa chỉ
+4 làm chức năng xem lịch sử đặt hàng/ don hang hoac san pham da dat
