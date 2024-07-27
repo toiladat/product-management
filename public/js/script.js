@@ -40,14 +40,20 @@ if (CheckAll) {
 }
 
 
-
 listCheckItem.forEach(item => {
   item.addEventListener("click", () => {
     const listCheckItemChecked = document.querySelectorAll("input[name='checkItem']:checked")
     CheckAll.checked = listCheckItemChecked.length == listCheckItem.length ? true : false
-
-    
-
   })
 })
 // end checkAll
+
+// show alert
+const showAlert = document.querySelector('[show-alert]')
+if (showAlert) {
+  const time = parseInt(showAlert.getAttribute('show-alert')) || 3000
+  setTimeout(() => {
+    showAlert.classList.add('hidden')
+  }, time);
+}
+// end show alert

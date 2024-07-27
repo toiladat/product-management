@@ -63,7 +63,7 @@ module.exports.orderPost = async (req, res) => {
 
   // xoa thong tin trong gio hang
   // xoa san pham dung for de pull id hoac tim hieu pullAll
-  await cart.updateOne({
+  await Cart.updateOne({
     _id: cartId
   }, {
     products: []
@@ -92,7 +92,6 @@ module.exports.success = async (req, res) => {
     order.totalPrice+=product.totalPrice
   }
 
-  console.log(order);
   res.render('client/pages/checkout/success.pug', {
     pageTitle: "Đặt hàng thành công",
     order: order

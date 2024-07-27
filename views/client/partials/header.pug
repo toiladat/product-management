@@ -12,6 +12,15 @@ header.header
               +sub-menu(categories)
           li
             a(href='/cart') Giỏ Hàng (#{totalProducts})
+          if(user)
+            li
+              a(href=`/user/logout`) đăng xuất
+          else
+            li 
+              a(href=`/user/login`) Đăng nhập 
+            li
+              a(href=`/user/register`) đăng ký
+          
       .col-6
         form(
           action="/search"
