@@ -2,6 +2,7 @@ const User = require('../../model/user.model');
 const md5 = require('md5');
 const generateHelper = require('../../helpers/generate.helper');
 const forgotPassword = require('../../model/forgot-password.model');
+const sendMailerHelper=require('../../helpers/sendEmail.helper');
 //[GET]/user/register
 module.exports.register = (req, res) => {
   res.render('client/pages/user/register.pug', {
@@ -43,31 +44,37 @@ module.exports.login = (req, res) => {
 
 //[POST]user /loginPost
 module.exports.lgoinPost = async (req, res) => {
-  const {
-    email,
-    password
-  } = req.body
-  const user = await User.findOne({
-    email: email
-  })
-  if (!user) {
-    req.flash('error', 'Email chưa được đăng ký')
-    res.redirect('/user/register')
-    return
+  try{
+    const {
+      email,
+      password
+    } = req.body
+    const user = await User.findOne({
+      email: email
+    })
+    if (!user) {
+      req.flash('error', 'Email chưa được đăng ký')
+      res.redirect('/user/register')
+      return
+    }
+    if (md5(password) != user.password) {
+      req.flash('error', 'Mật khẩu nhập sai')
+      res.redirect('back')
+      return
+    }
+    if (user.status != 'active') {
+      req.flash('error', "Tài khoản chưa được kích hoạt")
+      res.redirect('back')
+      return
+    }
+    res.cookie('tokenUser', user.tokenUser)
+    req.flash('success', "Đăng nhập thành công")
+    res.redirect('/')
   }
-  if (md5(password) != user.password) {
-    req.flash('error', 'Mật khẩu nhập sai')
+  catch{
+    req.flash('error',"đăng nhập thất bại")
     res.redirect('back')
-    return
   }
-  if (user.status != 'active') {
-    req.flash('error', "Tài khoản chưa được kích hoạt")
-    res.redirect('back')
-    return
-  }
-  res.cookie('tokenUser', user.tokenUser)
-  req.flash('success', "Đăng nhập thành công")
-  res.redirect('/')
 }
 
 
@@ -86,9 +93,9 @@ module.exports.forgot = (req, res) => {
 
 //[POST] user/password/forgotPost
 module.exports.forgotPost = (req, res) => {
-
+  const email=req.body.email
   const user = User.findOne({
-    email: req.body.email,
+    email: email,
     deleted: false
   })
   if (!user) {
@@ -98,7 +105,7 @@ module.exports.forgotPost = (req, res) => {
   }
   // việc 1 lưu email, OTP vào csdl forgot-password
   const forgotPasswordData = {
-    email: req.body.email,
+    email:email,
     otp: generateHelper.generateRandomNumber(6),
     expireAt: Date.now() + 3 * 60 * 1000
   }
@@ -106,6 +113,13 @@ module.exports.forgotPost = (req, res) => {
   newForgotPassword.save()
 
   // việc 2 Gửi otp qua email của user
+  const subject="Mã OTP lấy lại mật khẩu"
+  const text=`<p>Mã OTP là <b style="color:red">${forgotPasswordData.otp}</b>. Có hiệu lực trong 3 phút </p>`
+  sendMailerHelper.sendEmail(email,subject,text)
+
+
+
+
   res.redirect(`/user/password/otp?email=${req.body.email}`)
 }
 
@@ -165,4 +179,10 @@ module.exports.resetPasswordPatch = async (req, res) => {
     password:md5(newPassword)
   })
   res.redirect('/')
+}
+
+//[GET] /user/profile
+
+module.exports.profile=async(req,res)=>{
+  res.render('client/pages/user/profile.pug')
 }

@@ -18,6 +18,7 @@ route.post('/password/otp',controller.otpPasswordPost)
 route.get('/password/reset',controller.resetPassword)
 route.patch('/password/reset',controller.resetPasswordPatch)
 
+route.get('/profile',controller.profile)
 
 
 module.exports=route

@@ -4,6 +4,10 @@ h1{
 *{
   box-sizing: border-box;
 }
+.header .inner-logo img {
+  max-height: 50px;
+  max-width: 100%;
+}
 .boxList a{
   padding:10px;
   margin: 10px;

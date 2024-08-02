@@ -2,6 +2,10 @@ include ../mixins/sub-menu.pug
 header.header
   .container
     .row.align-items-center
+      .col-2
+        .inner-logo
+          a(href="/")
+            img(src=setting.logo, alt="Logo")
       .col-6
         ul
           li
@@ -14,6 +18,8 @@ header.header
             a(href='/cart') Giỏ Hàng (#{totalProducts})
           if(user)
             li
+              a(href=`/user/profile`) #{user.fullName}     
+            li
               a(href=`/user/logout`) đăng xuất
           else
             li 
@@ -21,7 +27,7 @@ header.header
             li
               a(href=`/user/register`) đăng ký
           
-      .col-6
+      .col-4
         form(
           action="/search"
           method="GET"

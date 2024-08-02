@@ -2,6 +2,7 @@ const Cart = require("../../model/cart.model")
 
 module.exports=async(req,res,next)=>{
   if(!req.cookies.cartId){
+    
     const cart = new Cart()
     await cart.save();
 // luu vao cookies ben fe 

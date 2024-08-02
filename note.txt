@@ -2,3 +2,5 @@
 2, chọn sản phẩm để thanh toán
 3, làm chức năng chọn địa chỉ
 4 làm chức năng xem lịch sử đặt hàng/ don hang hoac san pham da dat
+5. làm trang profile, chọn địa chỉ nhận hàng, làm chức năng phần 4 vào luôn 
+6.how to login to website usin fb

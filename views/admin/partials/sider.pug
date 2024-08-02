@@ -21,5 +21,9 @@
       if(role.permission.includes("accounts_view"))
         li  
           a(href=`/${prefixAdmin}/accounts/`) Tài khoản AD
+      if(role.permission.includes("setting_general"))
+        li  
+          a(href=`/${prefixAdmin}/settings/general`) Cài đặt chung
+
       li 
         a(href=`/${prefixAdmin}/auth/logout`) Đăng xuất

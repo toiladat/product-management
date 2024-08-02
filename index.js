@@ -11,7 +11,7 @@ const database = require("./config/database")
 database.connect()
 
 // body-parser la lib giup be nhan du lieu tu fe qua body trong fetch
-// có 2 cách be nhận data từ query tren url, body trong feactch hoac post trong form
+// có 2 cách be nhận data từ query tren url, body trong fetch hoac post trong form
 const bodyParser = require('body-parser');
 // mac dinh khi chuyen data qua api la dang json ??
 // chuyen json tu fe thanh js ben be luon nen khi nhan req.body la js luon

@@ -105,6 +105,12 @@ module.exports.permissions = async (req, res) => {
         { flagTitle: "Xóa", flag: "roles_delete" },
         { flagTitle: "Phân quyền", flag: "roles_permission" }
       ]
+    },
+    {
+      featureTitle: "Cài đặt",
+      flags: [
+        { flagTitle: "Cài đặt chung", flag: "setting_general" }
+      ]
     }
   ]
   

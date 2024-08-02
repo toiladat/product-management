@@ -28,7 +28,6 @@ module.exports.uploadSingle = (req, res, next) => {
         streamifier.createReadStream(buffer).pipe(stream);
       });
     };
-
     const uploadImageToCloud = async (buffer) => {
       const result = await streamUpload(buffer)
       // lay theo name o iput
