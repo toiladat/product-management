@@ -2,9 +2,18 @@ const express = require("express")
 const app = express()
 require('dotenv').config()
 const port = process.env.PORT
-
 const path=require('path');
 
+
+const http=require('http');
+const {Server}=require('socket.io');
+// tao 1 server
+const server=http.createServer(app)
+//tao 1 socket cho sv do
+const io=new Server(server)
+io.on('connection',socket=>{
+  console.log('co nguoi ket noi',socket.id);
+})
 
 // nhung file config de ket noi voi database
 const database = require("./config/database")
@@ -78,12 +87,20 @@ app.set("view engine", "pug")
 // App local variables
 // khi gan thi cac file trong template engine cung co the su dung bien ma k can rq
 const systemConfig = require('./config/system');
+const { log } = require("console");
 // them key prefixAdmin vao  object local
 app.locals.prefixAdmin = systemConfig.prefixAdmin
 
 
 clientRoute(app)
 adminRoute(app)
-app.listen(port, () => {
+app.get("*", (req, res) => {
+  res.render("client/pages/errors/404", {
+    pageTitle: "404 Not Found"
+  });
+});
+// dung tu server chu k phai app vi server no bao trum ca app
+//neu dung tu app.listen thi se khong ap dung duoc socket
+server.listen(port, () => {
   console.log("dang chay cong ", port);
 })

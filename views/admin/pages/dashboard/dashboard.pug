@@ -1,10 +1,52 @@
 extends ../../layouts/default.pug
 block main
-  h1 #{role.title}
-  h2 #{account.fullName}
-  div #{account.email}
-  div #{account.phone}
-  img(
-    src=account.avatar
-    width="150px"
-    )
+  .row.mt-4
+      .col-12
+        .card.mb-4
+          .card-header Thông tin tài khoản
+          .card-body
+            if(account.avatar)
+              img(
+                src=account.avatar
+                style="height: 100px;margin-bottom: 15px;"
+              )
+            if(account.fullName)
+              p Họ tên: <b>#{account.fullName}</b>
+            if(account.email)
+              p Email: <b>#{account.email}</b>
+            if(account.phone)
+              p Số điện thoại: <b>#{account.phone}</b>
+            if(role.title)
+              p Phân quyền: <b>#{role.title}</b>
+
+      .col-6
+        .card.mb-4
+          .card-header Danh mục sản phẩm
+          .card-body
+            p Số lượng: <b>#{statistic.categoryProduct.total}</b>
+            p Hoạt động: <b>#{statistic.categoryProduct.active}</b>
+            p Dừng hoạt động: <b>#{statistic.categoryProduct.inactive}</b>
+
+      .col-6
+        .card.mb-4
+          .card-header Sản phẩm
+          .card-body
+            p Số lượng: <b>#{statistic.product.total}</b>
+            p Hoạt động: <b>#{statistic.product.active}</b>
+            p Dừng hoạt động: <b>#{statistic.product.inactive}</b>
+
+      .col-6
+        .card.mb-4
+          .card-header Tài khoản admin
+          .card-body
+            p Số lượng: <b>#{statistic.account.total}</b>
+            p Hoạt động: <b>#{statistic.account.active}</b>
+            p Dừng hoạt động: <b>#{statistic.account.inactive}</b>
+
+      .col-6
+        .card.mb-4
+          .card-header Tài khoản client
+          .card-body
+            p Số lượng: <b>#{statistic.user.total}</b>
+            p Hoạt động: <b>#{statistic.user.active}</b>
+            p Dừng hoạt động: <b>#{statistic.user.inactive}</b>

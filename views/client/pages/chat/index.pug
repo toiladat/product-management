@@ -1,0 +1,48 @@
+extends ../../layouts/default.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        h3 Chat
+    .row
+      .col-12
+        .chat
+          //- .inner-head
+          //-   .inner-avatar EY
+          //-   .inner-name Em Yêu
+          .inner-body
+            .inner-incoming
+              .inner-name Em Yêu
+              .inner-content
+                | A ơi sang nhà e nha, nhà e không có ai ở nhà cả
+            .inner-outgoing
+              .inner-content
+                | Thế à? Ok e iu
+            .inner-incoming
+              .inner-name Em Yêu
+              .inner-content
+                | Nhanh nha nhanh nha
+            .inner-outgoing
+              .inner-content
+                | Ck đến rồi mà thấy ai ở nhà đâu e? Khóa cửa mà :(
+            .inner-incoming
+              .inner-name Em Yêu
+              .inner-content
+                | Thì em bảo nhà e không ai ở nhà mà :))
+            .inner-incoming
+              .inner-name Em Yêu
+              .inner-content
+                | cccc             
+          .inner-foot
+            form(
+              class="inner-form"
+              action=""
+            )
+              input(
+                type="text"
+                placeholder="Nhập nội dung..."
+                name="content"
+              )
+              button
+                i.fa-solid.fa-paper-plane

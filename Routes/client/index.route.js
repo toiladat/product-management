@@ -1,11 +1,13 @@
 const homeRoute = require('./home.route')
 const productRoute = require('./product.route')
-const categoryMiddeware=require('../../middewares/client/category.middewares');
 const searchRoute=require('./search.route');
-const cartMiddeware=require('../../middewares/client/cart.middewares');
 const cartRoute=require('./cart.route');
 const checkoutRoute=require('./checkout.route');
 const userRoute=require('./user.route');
+const chatRoute=require('./chat.route');
+
+const cartMiddeware=require('../../middewares/client/cart.middewares');
+const categoryMiddeware=require('../../middewares/client/category.middewares');
 const userMiddewares=require('../../middewares/client/user.middewares');
 const settingMiddewares=require('../../middewares/client/setting.middewares');
 
@@ -23,4 +25,5 @@ module.exports= (app)=>{
   app.use('/cart',cartRoute)
   app.use('/checkout',checkoutRoute)
   app.use('/user',userRoute)
+  app.use('/chat',chatRoute)
 }
