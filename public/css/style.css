@@ -227,6 +227,9 @@ footer{
 
 .chat .inner-body {
   padding: 10px;
+  height: 400px;
+  overflow: scroll;
+  max-width:100%;
 }
 
 .chat .inner-body .inner-name {
