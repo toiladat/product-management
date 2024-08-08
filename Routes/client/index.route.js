@@ -24,6 +24,11 @@ module.exports= (app)=>{
   app.use('/search',searchRoute)
   app.use('/cart',cartRoute)
   app.use('/checkout',checkoutRoute)
-  app.use('/user',userRoute)
-  app.use('/chat',chatRoute)
+
+  app.use('/user',
+  userRoute)
+
+  app.use('/chat',
+  userMiddewares.requireAuth,
+  chatRoute)
 }

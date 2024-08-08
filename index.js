@@ -11,9 +11,10 @@ const {Server}=require('socket.io');
 const server=http.createServer(app)
 //tao 1 socket cho sv do
 const io=new Server(server)
-io.on('connection',socket=>{
-  console.log('co nguoi ket noi',socket.id);
-})
+// tao bien _io dung duoc trong cac file .js o phia be( contrller.js)
+//locals dung o file pug thoi
+global._io=io
+
 
 // nhung file config de ket noi voi database
 const database = require("./config/database")

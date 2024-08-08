@@ -207,7 +207,7 @@ footer{
   border-bottom: 1px solid #ddd;
 }
 
-.chat .inner-head .inner-avatar {
+.chat .inner-wrap .inner-avatar img{
   background: #FE5DA3;
   width: 32px;
   height: 32px;
@@ -231,7 +231,13 @@ footer{
 
 .chat .inner-body .inner-name {
   font-weight: 600;
+  margin-left: 47px;
+  margin-bottom: 10p;
 }
+.chat .inner-wrap  {
+  display: flex;
+}
+
 
 .chat .inner-body .inner-content {
   background: #F1F1F1;
@@ -240,6 +246,7 @@ footer{
   padding: 5px 10px;
   border-radius: 15px;
   line-height: 1.4;
+  margin-left: 9px;
 }
 
 .chat .inner-outgoing .inner-content {
