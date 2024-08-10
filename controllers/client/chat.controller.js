@@ -27,6 +27,20 @@ module.exports.index=async(req,res)=>{
         avatar:res.locals.user.avatar
       })
     })
+
+
+    //CLIENT_SENT_TYPING
+    socket.on("CLIENT_SENT_TYPING",type=>{
+      socket.broadcast.emit('SERVER_RETURN_TYPING',{
+        userId:userId,
+        fullName:res.locals.user.fullName,
+        avatar:res.locals.user.avatar,
+        type:type
+      })
+    }
+
+
+    )
   })
   //end socketIO
   

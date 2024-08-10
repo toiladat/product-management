@@ -197,7 +197,7 @@ footer{
 
 /* chat */
 .chat {
-  width: 100%;
+  /* width: 100%; */
   border: 1px solid #ddd;
   border-radius: 8px;
 }
@@ -207,7 +207,7 @@ footer{
   border-bottom: 1px solid #ddd;
 }
 
-.chat .inner-wrap .inner-avatar img{
+.chat .inner-avatar img{
   background: #FE5DA3;
   width: 32px;
   height: 32px;
@@ -228,8 +228,7 @@ footer{
 .chat .inner-body {
   padding: 10px;
   height: 400px;
-  overflow: scroll;
-  max-width:100%;
+  overflow-y: scroll;
 }
 
 .chat .inner-body .inner-name {
@@ -245,11 +244,12 @@ footer{
 .chat .inner-body .inner-content {
   background: #F1F1F1;
   margin-bottom: 10px;
-  max-width: 220px;
+  max-width: 280px;
   padding: 5px 10px;
   border-radius: 15px;
   line-height: 1.4;
   margin-left: 9px;
+  overflow-wrap: break-word;
 }
 
 .chat .inner-outgoing .inner-content {
@@ -287,3 +287,62 @@ footer{
   cursor: pointer;
 }
 /* End chat */
+
+/* Tooltip */
+.tooltip {
+  visibility: hidden;
+}
+
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
+}
+/* End Tooltip */
+
+/* box-typing */
+.box-typing {
+  position: relative;
+}
+
+.box-typing .inner-dots {
+  position: relative;
+  height: 20px;
+  width: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #efefef;
+  border-radius: 45px;
+  margin-top: 2px;
+}
+
+.box-typing .inner-dots span {
+  animation: blink 1.5s infinite;
+  height: 5px;
+  width: 5px;
+  background: #252525;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 3px;
+}
+
+.box-typing .inner-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.box-typing .inner-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.1;
+ }
+  20% {
+    opacity: 1;
+ }
+  100% {
+    opacity: 0.1;
+ }
+}
+/* End box-typing */
