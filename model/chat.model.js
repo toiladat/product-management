@@ -3,7 +3,7 @@ const chatShema=new mongoose.Schema({
   userId:String,
   // roomChatId:String,
   content:String,
-  image:Array,
+  images:Array,
   // statusView:{
   //   default:'',
   //   type:String

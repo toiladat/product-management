@@ -5,6 +5,8 @@ const cartRoute=require('./cart.route');
 const checkoutRoute=require('./checkout.route');
 const userRoute=require('./user.route');
 const chatRoute=require('./chat.route');
+const usersRoute=require('./users.route');
+
 
 const cartMiddeware=require('../../middewares/client/cart.middewares');
 const categoryMiddeware=require('../../middewares/client/category.middewares');
@@ -24,6 +26,7 @@ module.exports= (app)=>{
   app.use('/search',searchRoute)
   app.use('/cart',cartRoute)
   app.use('/checkout',checkoutRoute)
+  app.use('/users',usersRoute)
 
   app.use('/user',
   userRoute)

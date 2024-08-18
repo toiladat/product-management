@@ -5,6 +5,7 @@ block main
     .row
       .col-12
         h3 Chat
+    include ../../partials/list-btn-friend.pug
     .row
       .col-12
         .chat(my-id=user.id)
@@ -21,7 +22,13 @@ block main
                     .inner-avatar
                       img(src=chat.avatar)
                   .inner-content
-                    | #{chat.content}      
+                    if(chat.content)
+                      .inner-text
+                        | #{chat.content}      
+                    if(chat.images.length>=0)
+                      .inner-images
+                        each image in chat.images 
+                          img(src=image)
             div(class="inner-list-typing")
               //- div(class="box-typing")
               //-   div(class="inner-name") Le Van A
@@ -34,7 +41,9 @@ block main
               //-   div(class="inner-dots")
               //-     span
               //-     span
-              //-     span    
+              //-     span   
+          .inner-preview-images
+            div(class="custom-file-container" data-upload-id="upload-images") 
           .inner-foot
             form(
               class="inner-form"
@@ -49,6 +58,10 @@ block main
                 button-icon
                 class="btn btn-sm btn-light mx-1"
               ) <i class="fa-regular fa-face-smile"></i>
+              label(
+                for="file-upload-with-preview-upload-images"
+                class="btn btn-sm btn-light mr-1 mb-0"
+              ) <i class="fa-regular fa-image"></i>
               button
                 i.fa-solid.fa-paper-plane
   div(class="tooltip" role="tooltip")

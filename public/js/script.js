@@ -1,3 +1,7 @@
+// tu sau lan khai bao dau tien cac dong,file js sau do co the sdung socket
+// declare ngoai file modudle vi declare trong file type module chi dung duoc trong file do thoi
+var socket = io()
+
 // pagination
 const listButtonPagination = document.querySelectorAll("[button-pagination]")
 

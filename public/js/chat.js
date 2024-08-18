@@ -3,8 +3,6 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js';
 
 
-var socket = io()
-
 //CLIENT_TYPING
 var typingTimeOut;
 const inputChat = document.querySelector('.chat .inner-form input[name="content"]')
@@ -21,7 +19,6 @@ if (inputChat) {
 //SERVER_RETURN_TYPING
 const elementListTyping = document.querySelector(".chat .inner-list-typing");
 socket.on("SERVER_RETURN_TYPING", (data) => {
-  console.log(data.fullName, " dang nhan ");
   if (data.type == "show") {
     const existTyping = elementListTyping.querySelector(`[user-id="${data.userId}"]`);
     if (!existTyping) {
@@ -46,18 +43,29 @@ socket.on("SERVER_RETURN_TYPING", (data) => {
 //CLIENT_SENT_MESSAGE
 const formChat = document.querySelector('.chat .inner-form')
 if (formChat) {
+  // khởi tạo để up load nhiều ảnh
+  const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-images', {
+    multiple: true,
+    maxFileCount: 6
+  });
   formChat.addEventListener('submit', e => {
     e.preventDefault()
-    const content = e.target.content.value
-    if (content) {
+    const content = e.target.content.value || "";
+    const images = upload.cachedFileArray;
+    // console.log(images);
+    if (content || images.length > 0) {
       socket.emit('CLIENT_SENT_MESSAGE', {
-        content: content
+        content: content,
+        images:images
       })
       e.target.content.value = ""
       //ap dung cho nguoi gui khi sent scroll keo xuong duoi
       bodyChat.scrollTop = bodyChat.scrollHeight
       // stop typing 
       socket.emit('CLIENT_SENT_TYPING','hidden')
+      //clear images
+      upload.resetPreviewPanel()
+
 
     }
   })
@@ -68,9 +76,13 @@ if (formChat) {
 socket.on('SERVER_RETURN_MESSAGE', data => {
   const myId = document.querySelector('[my-id]').getAttribute('my-id')
   const div = document.createElement('div')
+  console.log(data);
   // check nguoi gui hay nhan
-  let fullNameHtml = ''
-  let avatarHtml = ''
+  let fullNameHtml = ``
+  let avatarHtml = ``
+  let textHtml=``
+  let htmlImages=``
+  //ktra nguoi gui hay nhan
   if (myId == data.userId) {
     div.classList.add('inner-outgoing')
   } else {
@@ -78,17 +90,42 @@ socket.on('SERVER_RETURN_MESSAGE', data => {
     fullNameHtml = `<div class="inner-name">${data.fullName}</div>`;
     avatarHtml = `<div class="inner-avatar"><img src="${data.avatar}"></div>`
   }
+  //ktra content
+  if(data.content){
+    textHtml=`<div class="inner-text">${data.content}</div>`
+  }
+  //ktra images
+  if(data.images.length > 0) {
+    htmlImages += `
+      <div class="inner-images">
+    `;
+
+    for (const image of data.images) {
+      htmlImages += `
+        <img src="${image}">
+      `;
+    }
+
+    htmlImages += `
+      </div>
+    `;}
+
+
   div.innerHTML = `
     ${fullNameHtml}
     <div class="inner-wrap">
       ${avatarHtml}
-      <div class="inner-content">${data.content}</div>
+      <div class="inner-content"> 
+        ${textHtml}
+        ${htmlImages}
+      </div>
     </div>
   `
   const bodyChat = document.querySelector('.chat .inner-body')
   //insert truoc typing
   bodyChat.insertBefore(div,elementListTyping)
-
+  // cap nhat zoom cho anh moi nhat
+  new Viewer(div);
 })
 //END SERVER_RETURN_MESSAGE
 
@@ -136,3 +173,9 @@ if (buttonIcon) {
 
 }
 //end show popup icon
+
+// Preview Image
+if(bodyChat) {
+  new Viewer(bodyChat);
+}
+// End Preview Image

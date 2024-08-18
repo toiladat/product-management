@@ -1,0 +1,37 @@
+extends ../../layouts/default.pug
+
+
+block main
+  .container.my-3
+
+    include ../../partials/list-btn-friend.pug
+
+    .row
+      .col-12
+        h3 Danh sách bạn bè
+
+    .row
+      each user in users
+        .col-6
+          div(class="box-user add")
+            div(class="inner-avatar")
+              img(
+                src="https://robohash.org/hicveldicta.png" 
+                alt=user.fullName
+              )
+            div(class="inner-info")
+              div(class="inner-name") #{user.fullName}
+              div(class="inner-buttons")
+                button(
+                  btn-send-message=user.id
+                  class="btn btn-sm btn-primary mr-1"
+                ) Nhắn tin
+                button(
+                  btn-add-friend=user.id
+                  class="btn btn-sm btn-primary mr-1"
+                ) Kết bạn
+                button(
+                  btn-unfriend=user.id
+                  class="btn btn-sm btn-secondary mr-1"
+                ) Hủy kết bạn
+                
