@@ -40,6 +40,24 @@ module.exports = (req, res) => {
             }
           })
         }
+
+        //realtime: tra ve cho B {acceptFriends.lengh && userIdB}
+        const inforB = await User.findOne({
+          _id: userIdB
+        })
+        socket.broadcast.emit('SERVER_RETURN_LENGTH_ACCEPT_FRIEND', {
+          length: inforB.acceptFriends.length,
+          userId: userIdB
+        })
+        //tra ve cho B infor cua A
+        const inforA=await User.findOne({
+          _id:userIdA
+        }).select("fullName avatar")
+        socket.broadcast.emit('SERVER_RETURN_INFOR_ACCEPT_FRIEND',{
+          userIdB:userIdB,
+          inforA:inforA
+        })
+
       } catch {
         req.flash('error', 'Ket ban that bai')
       }
@@ -77,7 +95,20 @@ module.exports = (req, res) => {
             }
           })
         }
-
+        //realtime:
+        // tra ve cho B {acceptFriends.lengh && userIdB}
+        const inforB = await User.findOne({
+          _id: userIdB
+        })
+        socket.broadcast.emit('SERVER_RETURN_LENGTH_ACCEPT_FRIEND', {
+          length: inforB.acceptFriends.length,
+          userId: userIdB
+        })
+        // remove userA trong boxUserB
+        socket.broadcast.emit('SERVER_RETURN_ID_CANCEL_FRIEND',{
+          userCancel:userIdA,
+          userRemove:userIdB
+        })
       } catch {
         req.flash('error', "That bai")
       }
@@ -180,10 +211,12 @@ module.exports = (req, res) => {
           _id: userIdB,
           friendsList: {
             // tìm bản ghi có object có 1 key value trùng
-            $elemMatch: { userId: userIdA }
+            $elemMatch: {
+              userId: userIdA
+            }
           }
         });
-        
+
         if (existAinB) {
           console.log('ok');
           await User.updateOne({
@@ -199,11 +232,13 @@ module.exports = (req, res) => {
         const existBinA = await User.findOne({
           _id: userIdA,
           friendsList: {
-            $elemMatch: { userId: userIdB }
+            $elemMatch: {
+              userId: userIdB
+            }
           }
         })
         if (existBinA) {
-          
+
           await User.updateOne({
             _id: userIdA
           }, {

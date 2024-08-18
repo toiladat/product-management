@@ -10,9 +10,9 @@ block main
       .col-12
         h3 Danh sách lời mời đã nhận
 
-    .row
+    .row(data-user-accept=user._id)
       each user in users
-        .col-6
+        .col-6(user-id=user._id)
           div(class="box-user add")
             div(class="inner-avatar")
               img(
@@ -24,12 +24,12 @@ block main
               div(class="inner-buttons")
                 button(
                   class="btn btn-sm btn-primary mr-1"
-                  btn-accept-friend=user.id
+                  btn-accept-friend=user._id
                 ) Chấp nhận
                 button(
-                  btn-refuse-friend=user.id
+                  btn-refuse-friend=user._id
                   class="btn btn-sm btn-secondary mr-1"
-                ) Xóa
+                ) Từ chối
                 button(
                   class="btn btn-sm btn-secondary mr-1"
                   btn-deleted-friend

@@ -10,9 +10,9 @@ block main
       .col-12
         h3 Danh sách bạn bè
 
-    .row
+    .row(data-user-friend)
       each user in users
-        .col-6
+        .col-6(user-id=user._id)
           div(class="box-user add")
             div(class="inner-avatar")
               img(
@@ -34,4 +34,8 @@ block main
                   btn-unfriend=user.id
                   class="btn btn-sm btn-secondary mr-1"
                 ) Hủy kết bạn
-                
+            div(
+              class='inner-status mr-2'
+              status=user.statusOnline 
+            )
+              i(class="fa-solid fa-circle")

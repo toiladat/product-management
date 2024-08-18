@@ -15,4 +15,9 @@
     a(
       class="btn btn-primary m-1"
       href="/users/accept"
-    ) Lời mời đã nhận
+    )
+      | Lời mời đã nhận
+      span(
+        class="badge badge-light ml-2"
+        badge-users-accept=user.id
+      ) #{user.acceptFriends.length}

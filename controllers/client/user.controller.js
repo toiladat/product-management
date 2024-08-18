@@ -50,7 +50,8 @@ module.exports.lgoinPost = async (req, res) => {
       password
     } = req.body
     const user = await User.findOne({
-      email: email
+      email: email,
+      deleted:false
     })
     if (!user) {
       req.flash('error', 'Email chưa được đăng ký')
@@ -68,6 +69,21 @@ module.exports.lgoinPost = async (req, res) => {
       return
     }
     res.cookie('tokenUser', user.tokenUser)
+    // cap nhat trang thai online
+    await User.updateOne({
+      email:email,
+      deleted:false
+    },{
+      statusOnline:'online'
+    })
+    //realtime
+    _io.once("connection",socket=>{
+      socket.broadcast.emit("SERVER_RETURN_USER_ONLINE",{
+        status:'online',
+        userId:user._id
+      })
+    })
+
     req.flash('success', "Đăng nhập thành công")
     res.redirect('/')
   }
@@ -79,9 +95,29 @@ module.exports.lgoinPost = async (req, res) => {
 
 
 //[GET] user/logout
-module.exports.logout = (req, res) => {
-  res.clearCookie('tokenUser')
-  res.redirect('/user/login')
+module.exports.logout =async (req, res) => {
+  // try vi method get, user co the truy cap, neu khong co res.locals.user se loi
+  try{
+    await User.updateOne({
+      _id:res.locals.user._id
+    },{
+      statusOnline:'offline'
+    })
+
+    //realtime 
+    _io.once('connection',socket=>{
+      socket.broadcast.emit('SERVER_RETURN_USER_ONLINE',{
+        status:'offline',
+        userId:res.locals.user.id
+      })
+    })
+
+    res.clearCookie('tokenUser')
+    
+    res.redirect('/user/login')
+  }catch{
+    res.redirect('/user/login')
+  }
 }
 
 //[GET] user/password/forgot
