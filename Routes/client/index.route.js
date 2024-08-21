@@ -6,7 +6,7 @@ const checkoutRoute=require('./checkout.route');
 const userRoute=require('./user.route');
 const chatRoute=require('./chat.route');
 const usersRoute=require('./users.route');
-
+const roomChatRoute=require('./rooms-chat.route');
 
 const cartMiddeware=require('../../middewares/client/cart.middewares');
 const categoryMiddeware=require('../../middewares/client/category.middewares');
@@ -27,9 +27,8 @@ module.exports= (app)=>{
   app.use('/cart',cartRoute)
   app.use('/checkout',checkoutRoute)
   app.use('/users',usersRoute)
-
-  app.use('/user',
-  userRoute)
+  app.use('/rooms-chat',roomChatRoute)
+  app.use('/user', userRoute)
 
   app.use('/chat',
   userMiddewares.requireAuth,

@@ -1,0 +1,33 @@
+extends ../../layouts/default.pug
+
+
+block main
+  .container.my-3
+
+    include ../../partials/list-btn-friend.pug
+
+    .row
+      .col-12
+        h3 Danh sách phòng
+    .row.mb-3
+      .col-12
+        a(
+          href="/rooms-chat/create"
+          class="btn btn-sm btn-success mr-1"
+        ) Tạo phòng chat
+
+    .row
+      .col-6
+        div(class="box-room")
+          div(class="inner-avatar")
+            img(
+              src="https://robohash.org/hicveldicta.png"
+              alt="Phòng abc"
+            )
+          div(class="inner-info")
+            div(class="inner-name") Phòng abc
+            div(class="inner-buttons")
+              a(
+                href="/chat/:roomChatId"
+                class="btn btn-sm btn-primary mr-1"
+              ) Nhắn tin
