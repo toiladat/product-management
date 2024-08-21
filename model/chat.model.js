@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const chatShema=new mongoose.Schema({
   userId:String,
-  // roomChatId:String,
+  roomChatId:String,
   content:String,
   images:Array,
   // statusView:{
