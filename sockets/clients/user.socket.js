@@ -1,4 +1,6 @@
 const User = require('../../model/user.model');
+const RoomChat = require('../../model/room-chat.model');
+const Rommchat = require('../../model/room-chat.model');
 module.exports = (req, res) => {
   //id nguoi gui
   const userIdA = res.locals.user.id
@@ -50,12 +52,12 @@ module.exports = (req, res) => {
           userId: userIdB
         })
         //tra ve cho B infor cua A
-        const inforA=await User.findOne({
-          _id:userIdA
+        const inforA = await User.findOne({
+          _id: userIdA
         }).select("fullName avatar")
-        socket.broadcast.emit('SERVER_RETURN_INFOR_ACCEPT_FRIEND',{
-          userIdB:userIdB,
-          inforA:inforA
+        socket.broadcast.emit('SERVER_RETURN_INFOR_ACCEPT_FRIEND', {
+          userIdB: userIdB,
+          inforA: inforA
         })
 
       } catch {
@@ -105,9 +107,9 @@ module.exports = (req, res) => {
           userId: userIdB
         })
         // remove userA trong boxUserB
-        socket.broadcast.emit('SERVER_RETURN_ID_CANCEL_FRIEND',{
-          userCancel:userIdA,
-          userRemove:userIdB
+        socket.broadcast.emit('SERVER_RETURN_ID_CANCEL_FRIEND', {
+          userCancel: userIdA,
+          userRemove: userIdB
         })
       } catch {
         req.flash('error', "That bai")
@@ -155,19 +157,71 @@ module.exports = (req, res) => {
     //CLIENT_ACCEPT_FRIEND
 
     socket.on('CLIENT_ACCEPT_FRIEND', async userIdB => {
-      try { //ktra A co trong rq B hay k
+      try {
+        //ktra A co trong rq B hay k
         const existAinB = await User.findOne({
           _id: userIdB,
           requestFriends: userIdA
         })
-        if (existAinB) {
+        //ktra B co trong acp A hay k
+        const existBinA = await User.findOne({
+          _id: userIdA,
+          acceptFriends: userIdB
+        })
+
+
+
+        if (existAinB && existBinA) {
+          //1.Tao phong chat trung
+          //1.1 ktra da chat truoc do chua
+          let roomChatId
+          const existRoomChat = await Rommchat.findOne({
+            // tim xem co roomchat ton tai 2 user 
+            $and: [{
+                users: {
+                  $elemMatch: {
+                    userId: userIdA
+                  }
+                }
+              },
+              {
+                users: {
+                  $elemMatch: {
+                    userId: userIdB
+                  }
+                }
+              }
+            ]
+          })
+          if (!existRoomChat) {
+            const newRoomChat = new Rommchat({
+              typeRoom: "friend",
+              users: [{
+                  userId: userIdA,
+                  role: 'supperAdim'
+                },
+                {
+                  userId: userIdB,
+                  role: "supperAdmin"
+                }
+              ]
+            })
+            await newRoomChat.save()
+            roomChatId=newRoomChat._id
+          }
+          else{
+            roomChatId=existRoomChat._id
+          }
+
+
+
+          //2. them {userId va roomChatId} cua A vao friendList cua B
           await User.updateOne({
             _id: userIdB
           }, {
-            // them {userId va roomChatId} cua A vao friendList cua B
             $push: {
               friendsList: {
-                roomChatId: "",
+                roomChatId: roomChatId,
                 userId: userIdA
               }
             },
@@ -175,20 +229,15 @@ module.exports = (req, res) => {
               requestFriends: userIdA
             }
           })
-        }
 
-        const existBinA = await User.findOne({
-          _id: userIdA,
-          acceptFriends: userIdB
-        })
-        if (existBinA) {
+
+          //3. them {userId va roomChatId} cua B vao friendList cua A
           await User.updateOne({
             _id: userIdA
           }, {
-            // them {userId va roomChatId} cua B vao friendList cua A
             $push: {
               friendsList: {
-                roomChatId: "",
+                roomChatId: roomChatId,
                 userId: userIdB
               }
             },
@@ -196,7 +245,9 @@ module.exports = (req, res) => {
               acceptFriends: userIdB
             }
           })
+
         }
+
       } catch {
         req.flash('error', 'Chap nhan that bai')
       }
@@ -218,7 +269,6 @@ module.exports = (req, res) => {
         });
 
         if (existAinB) {
-          console.log('ok');
           await User.updateOne({
             _id: userIdB
           }, {

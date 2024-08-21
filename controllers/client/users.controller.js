@@ -114,6 +114,17 @@ module.exports.friends=async(req,res)=>{
     status:"active",
     deleted:false
   }).select(' id avatar fullName statusOnline')
+  // trả roomchatId ra cùng với infor user
+  // khi click nhawns tin se redirect den /roomchatid chung cua ca 2
+  users.forEach(user => {
+    const inforUser= friendsList.find(friend=>user._id==friend.userId)
+    if(inforUser){
+      user.roomChatId=inforUser.roomChatId
+    }
+  });
+
+
+
   res.render('client/pages/users/friends',{
     pageTitle:"Danh sách bạn bè",
     users:users

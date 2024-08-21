@@ -8,7 +8,7 @@ block main
 
     .row
       .col-12
-        h3 Danh sách bạn bè
+        h3 Danh sách bạn bè #{user.friendsList.length}
 
     .row(data-user-friend)
       each user in users
@@ -22,8 +22,9 @@ block main
             div(class="inner-info")
               div(class="inner-name") #{user.fullName}
               div(class="inner-buttons")
-                button(
+                a(
                   btn-send-message=user.id
+                  href=`/chat/${user.roomChatId}`
                   class="btn btn-sm btn-primary mr-1"
                 ) Nhắn tin
                 button(
