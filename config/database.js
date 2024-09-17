@@ -1,12 +1,11 @@
+const mongoose = require('mongoose');
 
-const mongoose = require("mongoose")
-module.exports.connect = ()=>{
-  try{
-    // connect voi url trong mongo db tu file .env
-    mongoose.connect(process.env.MONGO_URL)
-    console.log("ket noi database thanh cong")
-  }
-  catch{
-    console.log("ket noi that bai");
+module.exports.connect = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("Kết nối database thành công!");
+  } catch (error) {
+    // console.log(error);
+    console.log("Kết nối database thất bại!");
   }
 }

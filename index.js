@@ -67,7 +67,6 @@ app.use(methodOverride('_method'))
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 
-
 // nhung route cua client va admin
 const clientRoute = require("./Routes/client/index.route");
 const adminRoute = require('./Routes/admin/index.route');

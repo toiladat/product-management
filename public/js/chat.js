@@ -65,8 +65,6 @@ if (formChat) {
       socket.emit('CLIENT_SENT_TYPING','hidden')
       //clear images
       upload.resetPreviewPanel()
-
-
     }
   })
 }
