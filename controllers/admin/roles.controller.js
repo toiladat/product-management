@@ -62,7 +62,7 @@ module.exports.editPatch = async (req, res) => {
     req.flash("error", "Chinh sua that bai")
     res.redirect("back")
   }
-}
+} 
 //[GET]/admin/roles/permissions
 module.exports.permissions = async (req, res) => {
   const record = await Role.find({

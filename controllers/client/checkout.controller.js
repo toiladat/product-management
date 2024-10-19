@@ -74,31 +74,30 @@ module.exports.orderPost = async (req, res) => {
 
 // [GET]/checkout/success/:orderId
 module.exports.success = async (req, res) => {
- try{
-  const orderId = req.params.orderId;
-  const order = await Order.findOne({
-    _id: orderId
-  })
-  order.totalPrice=0
-  for (const product of order.products) {
-    const productInfor = await Product.findOne({
-      _id: product.productId
+  try {
+    const orderId = req.params.orderId;
+    const order = await Order.findOne({
+      _id: orderId
     })
-    product.thumbnail=productInfor.thumbnail
-    product.title=productInfor.title
+    order.totalPrice = 0
+    for (const product of order.products) {
+      const productInfor = await Product.findOne({
+        _id: product.productId
+      })
+      product.thumbnail = productInfor.thumbnail
+      product.title = productInfor.title
 
-    product.newPrice= ((1- product.discountPercentage/100)* product.price).toFixed(0)
-    product.totalPrice= product.newPrice*product.quantity
-    order.totalPrice+=product.totalPrice
+      product.newPrice = ((1 - product.discountPercentage / 100) * product.price).toFixed(0)
+      product.totalPrice = product.newPrice * product.quantity
+      order.totalPrice += product.totalPrice
+    }
+
+    res.render('client/pages/checkout/success.pug', {
+      pageTitle: "Đặt hàng thành công",
+      order: order
+    })
+  } catch {
+    req.flash('error', 'Đặt hàng thất bại')
+    res.redirect('back')
   }
-
-  res.render('client/pages/checkout/success.pug', {
-    pageTitle: "Đặt hàng thành công",
-    order: order
-  })
- }
- catch{
-  req.flash('error','Đặt hàng thất bại')
-  res.redirect('back')
- }
 }
