@@ -18,10 +18,10 @@ const mailOptions={
 }
 transporter.sendMail(mailOptions,(error,infor)=>{
   if(error){
-    // console.log(error);
+    console.log("faild");
   }
   else{
-    // console.log(infor.response);
+    console.log('send email successfully');
   }
 })
 }

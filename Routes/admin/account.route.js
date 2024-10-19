@@ -17,4 +17,7 @@ route.patch(`/edit/:id`,
   upload.single('avatar'),
   uploadToCloud.uploadSingle,
   controller.editPatch)
+
+
+
 module.exports = route

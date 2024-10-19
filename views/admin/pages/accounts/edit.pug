@@ -21,6 +21,7 @@ block main
       div(class="form-group")
         label(for="email") Email *
         input(
+          readonly
           type="email"
           class="form-control"
           id="email"
@@ -28,15 +29,15 @@ block main
           required
           value=record.email
         )
-      div(class="form-group")
-        label(for="password") Mật khẩu *
-        input(
-          type="password"
-          class="form-control"
-          id="password"
-          name="password"
+      //- div(class="form-group")
+      //-   label(for="password") Mật khẩu *
+      //-   input(
+      //-     type="password"
+      //-     class="form-control"
+      //-     id="password"
+      //-     name="password"
           
-        )
+      //-   )
       div(class="form-group")
         label(for="phone") Số điện thoại
         input(

@@ -6,6 +6,7 @@ const rolesRoute = require('./roles.route');
 const accountRoute = require('./account.route');
 const authRoute = require('./auth.route');
 const settingRoute = require('./setting.route');
+const passwordRoute=require('./password.route');
 
 // tao 
 const authMiddewares = require('../../middewares/admin/auth.middewares');
@@ -43,4 +44,5 @@ module.exports = (app) => {
     authMiddewares,
     settingRoute)
 
+  app.use(`/${path}/password`,passwordRoute)
 }
