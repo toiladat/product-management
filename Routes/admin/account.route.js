@@ -18,6 +18,7 @@ route.patch(`/edit/:id`,
   uploadToCloud.uploadSingle,
   controller.editPatch)
 
+route.patch('/delete',controller.delete)
 
 
 module.exports = route

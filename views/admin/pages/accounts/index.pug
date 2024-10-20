@@ -68,4 +68,6 @@ block main
                     if(role.permission.includes("accounts_delete"))
                       button(
                         class="btn btn-danger btn-sm ml-1"
+                        button-delete=item.id
+                        target='accounts'
                       ) Xóa

@@ -86,3 +86,23 @@ module.exports.editPatch = async (req, res) => {
     }
   }
 }
+//[PATCH]/admin/accounts/delete/
+module.exports.delete=async(req,res)=>{
+  try {
+    const id = req.body.id
+    await Account.updateOne({
+      _id:id
+    },{
+      deleted:true,
+    })
+    req.flash('Xóa tài khoản thành công')
+
+    res.json({
+      code:200,
+      message:"Xóa tài khoản thành công"
+    })
+  } catch {
+    req.flash('Xóa tài khoản thất bại')
+    res.redirect('back')
+  }
+}

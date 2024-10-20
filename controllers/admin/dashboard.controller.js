@@ -64,12 +64,12 @@ module.exports =async (req, res)=>{
     deleted: false
   });
 
-  statistic.account.active = await Product.countDocuments({
+  statistic.account.active = await Account.countDocuments({
     status: "active",
     deleted: false
   });
 
-  statistic.account.inactive = await Product.countDocuments({
+  statistic.account.inactive = await Account.countDocuments({
     status: "inactive",
     deleted: false
   });

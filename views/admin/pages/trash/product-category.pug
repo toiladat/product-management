@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/trash-options.pug
+
 block main
   .card.mb-3
     .card-header Bộ lọc và Tìm kiếm
@@ -14,8 +15,9 @@ block main
     .card-header Đối tượng đã xóa
     .card-body
       +trash-options()
+
   table.table.table-hover.table-sm
-    if(products.length>0)
+    if(categories.length>0)
       thead
         tr
           th
@@ -26,7 +28,7 @@ block main
           th Xóa bởi
           th Hành động
       tbody 
-      each item, index in products
+      each item, index in categories
         tr 
           td 
             input(type="checkbox" name="checkItem" value=item._id)
@@ -42,15 +44,15 @@ block main
           td #{item.deletedByFullName}
           td
             button(class="btn btn-success btn-sm" 
-            link=`/${prefixAdmin}/trash/products/retrieve/${item._id}`
+            link=`/${prefixAdmin}/trash/product-category/retrieve/${item._id}`
             button-retrieve
             ) Khôi phục
 
             button(
             class="btn btn-danger btn-sm ml-1"
             button-delete-permanent
-            link=`/${prefixAdmin}/trash/products/delete-permanent/${item._id}`
+            link=`/${prefixAdmin}/trash/product-category/delete-permanent/${item._id}`
             ) Xóa vinh vien
     else
-      p(class="text-center") Chưa có sản phẩm nào bị xóa
+      p(class="text-center") Chưa có danh mục nào bị xóa
   +pagination(pagination)

@@ -5,7 +5,7 @@ const productCategory = require('../../model/product-category.model');
 const createTreeHelper = require('../../helpers/createTree.helper');
 
 
-//[GEt]/admin/products-category
+//[GET]/admin/products-category
 module.exports.index = async (req, res) => {
   const records = await productCategory.find({
     deleted: false
@@ -34,6 +34,8 @@ module.exports.createPost = async (req, res) => {
       req.body.position = parseInt(req.body.position)
     else
       req.body.position = await productCategory.countDocuments({}) + 1
+
+      
     const newProductCategory = new productCategory(req.body)
     await newProductCategory.save()
     res.redirect(`/${prefixAdmin}/products-category/`)
@@ -71,6 +73,8 @@ module.exports.editPatch = async (req, res) => {
       else {
         req.body.position = await productCategory.countDocuments({}) + 1
       }
+      req.body.updatedBy= res.locals.account.id
+
       await productCategory.updateOne({
         _id: id
       }, req.body)
@@ -82,8 +86,9 @@ module.exports.editPatch = async (req, res) => {
     }
   }
 }
-//[GET]/admin/products-category/changeStatus/:statusChange/:id
+//[PATCH]/admin/products-category/changeStatus/:statusChange/:id
 module.exports.changeStatus = async (req, res) => {
+  console.log(req.params);
   try {
     const {
       statusChange,
@@ -92,12 +97,15 @@ module.exports.changeStatus = async (req, res) => {
     await productCategory.updateOne({
       _id: id,
       deleted: false,
+      updatedBy: res.locals.account.id
     }, {
       status: statusChange,
       updatedBy: res.locals.account.id
     })
     req.flash('success', 'Cập nhật trạng thái thành công')
-    res.redirect('back')
+    res.json({
+      code:200
+    })
   } catch {
     req.flash('error', "Cập nhật thất bại")
     res.redirect('back')
@@ -110,7 +118,8 @@ module.exports.delete = async (req, res) => {
     await productCategory.updateOne({
       _id:id
     },{
-      deleted:true
+      deleted:true,
+      deletedBy: res.locals.account.id
     })
     res.json({
       code:200,

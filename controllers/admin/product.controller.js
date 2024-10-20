@@ -33,7 +33,8 @@ module.exports.index = async (req, res) => {
 
   // pagination
   const paginationHelpers = require('../../helpers/pagination.helper');
-  const pagination = await paginationHelpers(req, find)
+  const pagination = await paginationHelpers(req, find,'product')
+  console.log(pagination);
   // end pagination
   //sort
   const sort = {}
@@ -48,8 +49,8 @@ module.exports.index = async (req, res) => {
   // tim kiem theo object find, limit, skip
   const products = await Product
     .find(find)
-    .limit(pagination.productLimit)
-    .skip(pagination.productSkip)
+    .limit(pagination.limitElement)
+    .skip(pagination.skipElement)
     .sort(sort)
 
 
@@ -266,11 +267,15 @@ if(res.locals.role.permission.includes("products_view")){
       productDetail.createdAtFormat=moment(productDetail.createdAt).format("DD/MM/YYYY HH:mm:ss")
     }
     if(productDetail.updatedBy){
-      const updatedBy=await Account.findOne({
-        _id:productDetail.updatedBy
-      })
-      productDetail.updatedByFullName=updatedBy.fullName
-      productDetail.updatedByEmail=updatedBy.email
+      try{
+        const updatedBy=await Account.findById(productDetail.updatedBy)
+        productDetail.updatedByFullName=updatedBy.fullName
+        productDetail.updatedByEmail=updatedBy.email
+      }catch{
+        productDetail.updatedByFullName="Tài khoản này đã bị xóa vĩnh viễn"
+        productDetail.updatedByEmail="Email tài khoản đã bị xóa"
+      }
+
       productDetail.updatedAtFormat=moment(productDetail.updatedAt).format("DD/MM/YYYY HH:mm:ss")
     }
     res.render('admin/pages/products/detail', {

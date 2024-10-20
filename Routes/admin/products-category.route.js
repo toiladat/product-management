@@ -25,5 +25,5 @@ route.patch(`/edit/:id`,
   controller.editPatch
   )
 route.patch('/delete',controller.delete)
-route.get('/changeStatus/:statusChange/:id',controller.changeStatus)
+route.patch('/changeStatus/:statusChange/:id',controller.changeStatus)
 module.exports = route

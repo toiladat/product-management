@@ -150,15 +150,37 @@ if (boxActions) {
 }
 // end box actions
 
+// box-option-trash áp dụng chọn đối tượng đã xóa
+
+const boxActionTrash = document.querySelector('[box-option-trash]')
+if (boxActionTrash) {
+  boxActionTrash.addEventListener('change', () => {
+    const target = boxActionTrash.value
+    const link = boxActionTrash.getAttribute('box-option-trash')
+    const linkFinal = link + target;
+    window.location.href = linkFinal; // Chuyển hướng tới URL đã chọn
+  })
+}
+//end box-option-trash
+
+// selected in box-option-trash
+const currentUrl = window.location.pathname;
+const target = currentUrl.split('/').pop()
+if (boxActionTrash) {
+  const defaultSeletct = boxActionTrash.querySelector(`option[value="${target}"]`)
+  defaultSeletct.selected = true
+}
+
+//end seleted in box-option-trash
+
 //  delete record
 const listButtonDelete = document.querySelectorAll('[button-delete]')
 if (listButtonDelete.length > 0) {
   listButtonDelete.forEach(button => {
     button.addEventListener("click", () => {
       const id = button.getAttribute("button-delete")
-      const target=button.getAttribute('target');
-      console.log(id);
-      console.log(target);
+      const target = button.getAttribute('target');
+
       fetch(`/admin/${target}/delete`, {
           method: "PATCH",
           headers: {
@@ -262,7 +284,6 @@ if (showAlert) {
 // upload image
 
 const uploadImage = document.querySelector("[upload-image]")
-
 if (uploadImage) {
   const uploadImageInput = uploadImage.querySelector("[upload-image-input]")
   const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]")
