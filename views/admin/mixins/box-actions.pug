@@ -1,11 +1,11 @@
 mixin box-actions(link)
-  div(class="input-group" box-actions=link)
-    select(class="custom-select")
+  div(class="input-group row" box-actions=link)
+    select(class="custom-select  col-10")
       option(value='') Chọn hành động...
       option(value='active') Hoạt động
       option(value='inactive') Dừng hoạt động
-    .input-group-append
+    .input-group-append.col-2
       button(
-        class="btn btn-outline-secondary"
+        class="btn btn-outline-secondary btn-sm"
         type='button'
       ) Áp dụng

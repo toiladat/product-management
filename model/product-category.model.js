@@ -24,7 +24,9 @@ const productCategorySchema = new Schema({
     type: String,
     slug: 'title',
     unique: true
-  }
+  },
+  updatedBy:String,
+  deletedBy:String,
 }, {
   timestamps: true
 })

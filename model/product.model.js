@@ -9,7 +9,7 @@ const {Schema}= mongoose
 const productSchema = new Schema(
   {
     title:String,
-    productCategoryId:String,
+    productCategoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'productCategory' },// phải liên kết collection trong models
     description:String,
     discountPercentage:Number,
     stock:Number,

@@ -2,7 +2,7 @@ mixin selectTree(items,level=1,id="")
   each item in items
     - const prefix = Array(level+1).join("--");
     option(
-      selected=(item._id==id)?true:false
+      selected=(item.id == id ? true : false)
       value=item._id
       ) #{prefix} #{item.title}
     if(item.children)

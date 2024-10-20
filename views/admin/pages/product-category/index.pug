@@ -22,7 +22,6 @@ block main
             th STT
             th Hình ảnh
             th Tiêu đề
-            th Vị trí
             th Trạng thái
             th Hành động
 
@@ -39,18 +38,10 @@ block main
                 )
               td #{item.title}
               td
-                input(
-                  type="number"
-                  value=item.position
-                  style="width: 60px"
-                  min="1"
-                  name="position"
-                )
-              td
                 if(role.permission.includes("products-category_edit"))
                   if (item.status === "active")
                     a(
-                      href="javascript:;"
+                      href=`/${prefixAdmin}/products-category/changeStatus/inactive/${item._id}`
                       class="badge badge-success"
                       data-status="active"
                       data-id=item.id
@@ -58,7 +49,7 @@ block main
                     ) Hoạt động
                   else
                     a(
-                      href="javascript:;"
+                      href=`/${prefixAdmin}/products-category/changeStatus/active/${item._id}`
                       class="badge badge-danger"
                       data-status="inactive"
                       data-id=item.id
@@ -77,6 +68,6 @@ block main
                 if(role.permission.includes("products-category_delete"))
                   button(
                     class="btn btn-danger btn-sm ml-1"
-                    button-delete
-                    data-id=item.id
+                    button-delete=item.id
+                    target='products-category'
                   ) Xóa

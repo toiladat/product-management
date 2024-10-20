@@ -24,6 +24,6 @@ route.patch(`/edit/:id`,
   validateProCate.createPost,
   controller.editPatch
   )
-
-
+route.patch('/delete',controller.delete)
+route.get('/changeStatus/:statusChange/:id',controller.changeStatus)
 module.exports = route

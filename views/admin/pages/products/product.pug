@@ -14,14 +14,11 @@ block main
             +fillter-status(fillterStatus)
           .col-6
             +search(nameInput)
-    
-    .card.mb-3
-      .card-header Hành động 
-      .card.mb-3
+
       .card-header Sắp xếp
       .card-body
         .row
-          .col-5
+          .col-10
             div(sort)
               select(
                 class="form-control"
@@ -34,11 +31,13 @@ block main
                 option(value="price-asc") Giá tăng dần
                 option(value="title-asc") Tiêu đề A - Z
                 option(value="title-desc") Tiêu đề Z - A
-
-              button(
-                class="btn btn-danger mt-2"
-                sort-clear
-              ) Clear
+          .col-2
+            button(
+              class="btn btn-danger "
+              sort-clear
+            ) Clear
+                  
+      .card-header Hành động 
       .card-body
         if(role.permission.includes("products_edit"))
           +box-actions(`/${prefixAdmin}/products/change-multi`)
@@ -64,7 +63,7 @@ block main
       each item, index in products
         tr 
           td 
-            input(type="checkbox" name="checkItem" value=item.productId)
+            input(type="checkbox" name="checkItem" value=item._id)
           td #{index+1}
           td
             img(
@@ -109,5 +108,6 @@ block main
               button(
                 class="btn btn-danger btn-sm ml-1"
                 button-delete=item._id
+                target='products'
               ) Xóa
     +pagination(pagination)

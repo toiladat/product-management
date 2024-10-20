@@ -130,8 +130,6 @@ if (boxActions) {
         ids: ids
       }
       const link = boxActions.getAttribute("box-actions")
-      console.log(link);
-
       fetch(link, {
           method: "PATCH",
           headers: {
@@ -158,7 +156,10 @@ if (listButtonDelete.length > 0) {
   listButtonDelete.forEach(button => {
     button.addEventListener("click", () => {
       const id = button.getAttribute("button-delete")
-      fetch('/admin/products/delete', {
+      const target=button.getAttribute('target');
+      console.log(id);
+      console.log(target);
+      fetch(`/admin/${target}/delete`, {
           method: "PATCH",
           headers: {
             'Content-Type': 'application/json'
@@ -169,7 +170,6 @@ if (listButtonDelete.length > 0) {
         })
         .then(res => res.json())
         .then(data => {
-          console.log(data);
           if (data.code == 200)
             window.location.reload()
         })
@@ -203,7 +203,6 @@ listButtonRetrieve.forEach(button => {
 
 // delete parmenant record
 const listButtonDelPar = document.querySelectorAll("[button-delete-permanent]")
-console.log(listButtonDelPar);
 if (listButtonDelPar.length > 0) {
   listButtonDelPar.forEach(item => {
     item.addEventListener("click", () => {

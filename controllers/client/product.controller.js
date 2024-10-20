@@ -57,6 +57,7 @@ module.exports.category = async (req, res) => {
     status: 'active',
     deleted: false
   })
+
   const allSubCategoies = []
 
   const getSubCategories = async (currentId) => {
@@ -71,13 +72,14 @@ module.exports.category = async (req, res) => {
     }
   }
 // phai co await
-  await getSubCategories(category.id)
+  await getSubCategories(category._id)
+
   const find = {
     status: 'active',
     deleted: false,
     productCategoryId: {
       $in: [
-        category.id,
+        category._id,
         ...allSubCategoies
       ]
     }
