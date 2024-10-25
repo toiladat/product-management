@@ -1,6 +1,7 @@
 const Product = require('../model/product.model');
 const productCategory = require('../model/product-category.model');
 const Account = require('../model/account.model');
+
 module.exports = async (req, find, criteria = 'product') => {
   let elementTotal = 0
   switch (criteria) {

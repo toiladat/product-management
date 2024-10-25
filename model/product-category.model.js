@@ -14,6 +14,7 @@ const productCategorySchema = new Schema({
   },
   thumbnail: String,
   status: String,
+  originalStatus:String,
   deleted: {
     type: Boolean,
     default: false

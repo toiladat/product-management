@@ -83,6 +83,9 @@ if (listButtonChangeStatus.length > 0) {
           if (data.code == 200) {
             window.location.reload()
           }
+          else{
+            window.location.reload()
+          }
         })
     })
   })

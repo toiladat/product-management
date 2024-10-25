@@ -3,6 +3,7 @@ const {
 } = require('../../config/system');
 const productCategory = require('../../model/product-category.model');
 const createTreeHelper = require('../../helpers/createTree.helper');
+const updateCategoryStatus = require('../../helpers/updateCategoryStatus.helper');
 
 
 //[GET]/admin/products-category
@@ -35,7 +36,7 @@ module.exports.createPost = async (req, res) => {
     else
       req.body.position = await productCategory.countDocuments({}) + 1
 
-      
+
     const newProductCategory = new productCategory(req.body)
     await newProductCategory.save()
     res.redirect(`/${prefixAdmin}/products-category/`)
@@ -73,7 +74,7 @@ module.exports.editPatch = async (req, res) => {
       else {
         req.body.position = await productCategory.countDocuments({}) + 1
       }
-      req.body.updatedBy= res.locals.account.id
+      req.body.updatedBy = res.locals.account.id
 
       await productCategory.updateOne({
         _id: id
@@ -88,23 +89,51 @@ module.exports.editPatch = async (req, res) => {
 }
 //[PATCH]/admin/products-category/changeStatus/:statusChange/:id
 module.exports.changeStatus = async (req, res) => {
-  console.log(req.params);
+  //1.Nếu là inactive ->, original_status= status ->  children categories -> inactive
+  //  Nếu là active   -> children categories -> originalStatus -> originalStatus=""
+
+  //2. Nếu catecha là inactive thì không được cập nhật
   try {
     const {
       statusChange,
       id
     } = req.params;
+
+    const currCategory = await productCategory.findOne({
+      _id: id,
+      deleted: false
+    }).select('parent_id')
+    
+    if (currCategory.parent_id ) {
+      const parrentCategory = await productCategory.findOne({
+        _id: currCategory.parent_id,
+        deleted: false
+      })
+      if (parrentCategory.status !== 'active') {
+        req.flash('error', `Danh mục cha  inactive `)
+        res.json({
+          code:400
+        })
+        return;
+      }
+    }
+
+    // update childCategories
+    await updateCategoryStatus(id, statusChange)
+    //end update childCategories
+
+    //update curCategory
     await productCategory.updateOne({
       _id: id,
       deleted: false,
-      updatedBy: res.locals.account.id
     }, {
       status: statusChange,
       updatedBy: res.locals.account.id
     })
+
     req.flash('success', 'Cập nhật trạng thái thành công')
     res.json({
-      code:200
+      code: 200
     })
   } catch {
     req.flash('error', "Cập nhật thất bại")
@@ -116,14 +145,14 @@ module.exports.delete = async (req, res) => {
   try {
     const id = req.body.id
     await productCategory.updateOne({
-      _id:id
-    },{
-      deleted:true,
+      _id: id
+    }, {
+      deleted: true,
       deletedBy: res.locals.account.id
     })
     res.json({
-      code:200,
-      message:"Xóa danh mục thành công"
+      code: 200,
+      message: "Xóa danh mục thành công"
     })
   } catch {
     req.flash('Xóa danh mục thất bại')
