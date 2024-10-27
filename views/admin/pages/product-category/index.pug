@@ -68,6 +68,20 @@ block main
                 if(role.permission.includes("products-category_delete"))
                   button(
                     class="btn btn-danger btn-sm ml-1"
-                    button-delete=item.id
-                    target='products-category'
+                    data-id=item._id
+                    data-title=item.title
+                    data-toggle='modal'
+                    data-target='#staticBackdrop'
                   ) Xóa
+  #staticBackdrop.modal.fade(data-backdrop='static' data-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h5#staticBackdropLabel.modal-title Lưu ý
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          | Các danh mục con cũng sẽ bị xóa
+        .modal-footer
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Hủy
+          button.btn.btn-danger(type='button' button-delete target='products-category') Xóa

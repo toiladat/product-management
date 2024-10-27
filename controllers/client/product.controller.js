@@ -1,11 +1,34 @@
 const productCategory = require('../../model/product-category.model');
 const products = require('../../model/product.model')
-
+//[GET]/
 module.exports.index = async (req, res) => {
   // tim mac dinh status = active
+
+  const allSubCategoies = []
+
+  const getSubCategories = async (currentId) => {
+    const subCategories = await productCategory.find({
+      parent_id: currentId,
+      deleted: false,
+      status: 'active'
+    })
+    for (item of subCategories) {
+      allSubCategoies.push(item.id)
+      await getSubCategories(item.id)
+    }
+  }
+  // lay tat ca sp
+// phai co await
+  await getSubCategories('')
+
   const find = {
     status: 'active',
-    deleted: false
+    deleted: false,
+    productCategoryId: {
+      $in: [
+        ...allSubCategoies
+      ]
+    }
   }
   const paginationHelper = require('../../helpers/pagination.helper');
   const pagination = await paginationHelper(req, find)
@@ -17,6 +40,7 @@ module.exports.index = async (req, res) => {
     .sort({
       position: 'desc'
     })
+
   for (item of Products) {
     item.newPrice = ((1 - item.discountPercentage / 100) * item.price).toFixed(0)
   }
@@ -32,7 +56,6 @@ module.exports.index = async (req, res) => {
 // [GET] /products/detail/:slug
 module.exports.detail = async (req, res) => {
   const slug = req.params.slug;
-
   const product = await products.findOne({
     slugTitle: slug,
     deleted: false,
@@ -93,10 +116,6 @@ module.exports.category = async (req, res) => {
     .sort({
       position: 'desc'
     })
-
-
-
-
 
   for (item of Products) {
     item.newPrice = ((1 - item.discountPercentage / 100) * item.price).toFixed(0)

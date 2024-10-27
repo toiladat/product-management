@@ -127,6 +127,22 @@ module.exports.productCategory = async (req, res) => {
 module.exports.retrieveProductCategory = async (req, res) => {
   try {
     const id = req.params.id
+    const currCategory = await productCategory.findOne({
+      _id: id
+    }).select('parent_id')
+    if (currCategory.parent_id != '') {
+      const parentCategory = await productCategory.findOne({
+        _id: currCategory.parent_id
+      })
+      if (parentCategory.deleted) {
+        req.flash("error", `Danh mục cha là ${parentCategory.title} đã bị xóa`)
+        res.json({
+          code: 400
+        })
+        return
+      }
+    }
+
 
     await productCategory.updateOne({
       _id: id
@@ -173,7 +189,7 @@ module.exports.accounts = async (req, res) => {
   }
   res.render('admin/pages/trash/accounts.pug', {
     accounts: accounts,
-    pagination:pagination,
+    pagination: pagination,
     nameInput: nameInput
   })
 };

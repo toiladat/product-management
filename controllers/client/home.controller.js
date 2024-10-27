@@ -13,7 +13,8 @@ module.exports.index = async (req, res) => {
     .populate({
       path: 'productCategoryId', // Liên kết với ProductCategory thông qua productCategoryId
       match: {
-        status: 'active'
+        status: 'active',
+        deleted:false
       } // Điều kiện: chỉ populate các category có status là 'active'
     }).select('-description');
 
@@ -35,7 +36,8 @@ module.exports.index = async (req, res) => {
     .populate({
       path: 'productCategoryId', // Liên kết với ProductCategory thông qua productCategoryId
       match: {
-        status: 'active'
+        status: 'active',
+        deleted:false
       } // Điều kiện: chỉ populate các category có status là 'active'
     }).select('-description');
   const newestProductsFinal = newestProducts.filter(product => product.productCategoryId !== null);

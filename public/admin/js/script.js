@@ -183,7 +183,6 @@ if (listButtonDelete.length > 0) {
     button.addEventListener("click", () => {
       const id = button.getAttribute("button-delete")
       const target = button.getAttribute('target');
-
       fetch(`/admin/${target}/delete`, {
           method: "PATCH",
           headers: {
@@ -197,18 +196,38 @@ if (listButtonDelete.length > 0) {
         .then(data => {
           if (data.code == 200)
             window.location.reload()
+          else {
+            window.location.reload()
+          }
         })
     })
   })
 }
 // end delete record
+// Lắng nghe sự kiện khi mở modal
+document.addEventListener('DOMContentLoaded', function() {
+  const deleteButtons = document.querySelectorAll('button[data-target="#staticBackdrop"]');
+  const modalBody = document.querySelector('#staticBackdrop .modal-body');
+  const modalFooter=document.querySelector('#staticBackdrop .modal-footer')
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Lấy thông tin từ các thuộc tính dữ liệu
+      const title = this.getAttribute('data-title');
+      const id = this.getAttribute('data-id');
+      const deleteAccept= modalFooter.querySelector('[button-delete]')
+      // Cập nhật nội dung modal
+    
+      modalBody.innerText = `Xóa danh mục ${title}, các danh mục con cũng sẽ bị xóa !`;
+      deleteAccept.setAttribute('button-delete',id)
+    });
+  });
+});
 
 // retrieve record 
 const listButtonRetrieve = document.querySelectorAll('[button-retrieve]')
 listButtonRetrieve.forEach(button => {
   button.addEventListener('click', () => {
     const link = button.getAttribute('link')
-    console.log(link);
     fetch(link, {
         method: "PATCH",
         headers: {
@@ -218,6 +237,8 @@ listButtonRetrieve.forEach(button => {
       .then(res => res.json())
       .then(data => {
         if (data.code == 200)
+          window.location.reload()
+        else
           window.location.reload()
       })
   })
@@ -258,7 +279,6 @@ if (listInputPosition.length > 0) {
     input.addEventListener('change', () => {
       const position = parseInt(input.value)
       const link = input.getAttribute('link')
-      console.log(link);
       fetch(link, {
         method: "PATCH",
         headers: {

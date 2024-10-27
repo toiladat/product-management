@@ -103,8 +103,8 @@ module.exports.changeStatus = async (req, res) => {
       _id: id,
       deleted: false
     }).select('parent_id')
-    
-    if (currCategory.parent_id ) {
+
+    if (currCategory.parent_id) {
       const parrentCategory = await productCategory.findOne({
         _id: currCategory.parent_id,
         deleted: false
@@ -112,7 +112,7 @@ module.exports.changeStatus = async (req, res) => {
       if (parrentCategory.status !== 'active') {
         req.flash('error', `Danh mục cha  inactive `)
         res.json({
-          code:400
+          code: 400
         })
         return;
       }
@@ -144,6 +144,18 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.delete = async (req, res) => {
   try {
     const id = req.body.id
+    const existChild = await productCategory.find({
+      deleted: false,
+      parent_id: id
+    })
+    if (existChild.length > 0) {
+      req.flash("error", `Tồn tại ${existChild.length} danh mục con`)
+      res.json({
+        code: 400,
+        message: `Tồn tại ${existChild.length} danh mục con`
+      })
+      return;
+    }
     await productCategory.updateOne({
       _id: id
     }, {
