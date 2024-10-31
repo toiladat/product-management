@@ -15,6 +15,7 @@ module.exports =async (req, res, next) => {
   }).select("fullName email phone avatar role_id")
   
   if (!account) {
+    req.flash('error','Account not found')
     res.redirect(`/${prefixAdmin}/auth/login`)
     return
   }
@@ -24,6 +25,11 @@ module.exports =async (req, res, next) => {
     deleted:false
   }).select("title permission")
   
+  if(!role){
+    req.flash('error','Account havent permission')
+    res.redirect(`/${prefixAdmin}/auth/login`)
+    return
+  }
   // nhu prefixAdmin cac bien trong oj res.locals duoc su dung o toan bo cac file pug
   res.locals.account=account
   res.locals.role=role

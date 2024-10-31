@@ -63,6 +63,27 @@ module.exports.editPatch = async (req, res) => {
     res.redirect("back")
   }
 } 
+//[DELETE]/admin/roles/delete/:id
+module.exports.Delete=async(req,res)=>{
+try{
+  const id=req.params.id;
+  await Role.deleteOne({
+    _id:id
+  })
+  req.flash('success','Delete Successfully');
+  res.json({
+    message:'Delete successfully',
+    code:200
+  })
+}
+catch{
+  res.json({
+    code:400,
+    message:"Delete Failurely"
+  })
+}
+}
+
 //[GET]/admin/roles/permissions
 module.exports.permissions = async (req, res) => {
   const record = await Role.find({

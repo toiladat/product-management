@@ -15,7 +15,10 @@ module.exports.index = async (req, res) => {
       _id: record.role_id,
       deleted: false
     })
-    record.roleTitle = role.title
+    //role là null hoặc undefined: Nếu role bản thân nó là null hoặc undefined, 
+    //thì khi truy cập role.title sẽ gây lỗi và dòng lệnh sẽ không được thực thi. 
+    //Để kiểm tra, bạn có thể dùng cách sau để đảm bảo role tồn tại:
+    record.roleTitle = role?.title || 'role is deleted';
   }
   res.render('admin/pages/accounts/index.pug', {
     pageTitle: "Danh sach tai khoan",

@@ -40,7 +40,9 @@ block main
                         href=`/${prefixAdmin}/roles/edit/${item.id}`
                       ) Sửa
                       button(
-                        class="btn btn-danger btn-sm ml-1"
+                        button-delete-permanent
+                        link=`/${prefixAdmin}/roles/delete/${item.id}`
+                        class="btn btn-danger btn-sm ml-1" 
                       ) Xóa
               else
                 tr
