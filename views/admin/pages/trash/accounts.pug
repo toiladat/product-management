@@ -15,44 +15,46 @@ block main
     .card-header Đối tượng đã xóa
     .card-body
       +trash-options()
+  if(role.permission.includes("trash_view"))
+    table.table.table-hover.table-sm
+      if(accounts.length>0)
+        thead
+          tr
+            th
+              input(type="checkbox" name="checkAll")
+            th STT
+            th Hình ảnh
+            th Tên
+            th Quyền
+            if(role.permission.includes("trash_view"))
+              th Hành động
+        tbody 
+        each item, index in accounts
+          tr 
+            td 
+              input(type="checkbox" name="checkItem" value=item._id)
+            td #{index+1}
+            td
+              img(
+                src=item.fullName
+                alt=item.avatar
+                width="80px"
+                height="auto"
+              )
+            td #{item.fullName}
+            td #{item.roleTitle}
+            if(role.permission.includes("trash_update"))
+              td
+              button(class="btn btn-success btn-sm" 
+              link=`/${prefixAdmin}/trash/accounts/retrieve/${item._id}`
+              button-retrieve
+              ) Khôi phục
 
-  table.table.table-hover.table-sm
-    if(accounts.length>0)
-      thead
-        tr
-          th
-            input(type="checkbox" name="checkAll")
-          th STT
-          th Hình ảnh
-          th Tên
-          th Quyền
-          th Hành động
-      tbody 
-      each item, index in accounts
-        tr 
-          td 
-            input(type="checkbox" name="checkItem" value=item._id)
-          td #{index+1}
-          td
-            img(
-              src=item.fullName
-              alt=item.avatar
-              width="80px"
-              height="auto"
-            )
-          td #{item.fullName}
-          td #{item.roleTitle}
-          td
-            button(class="btn btn-success btn-sm" 
-            link=`/${prefixAdmin}/trash/accounts/retrieve/${item._id}`
-            button-retrieve
-            ) Khôi phục
-
-            button(
-            class="btn btn-danger btn-sm ml-1"
-            button-delete-permanent
-            link=`/${prefixAdmin}/trash/accounts/delete-permanent/${item._id}`
-            ) Xóa vinh vien
-    else
-      p(class="text-center") Chưa có tài khoản nào bị xóa
-  +pagination(pagination)
+              button(
+              class="btn btn-danger btn-sm ml-1"
+              button-delete-permanent
+              link=`/${prefixAdmin}/trash/accounts/delete-permanent/${item._id}`
+              ) Xóa vinh vien
+      else
+        p(class="text-center") Chưa có tài khoản nào bị xóa
+    +pagination(pagination)

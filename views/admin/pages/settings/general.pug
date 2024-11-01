@@ -2,12 +2,12 @@ extends ../../layouts/default.pug
 
 block main
   h1 Cài đặt chung
-
-  form(
-    action=`/${prefixAdmin}/settings/general?_method=PATCH`
-    method="POST"
-    enctype="multipart/form-data"
-  )
+  if(role.permission.includes("setting_general"))
+    form(
+      action=`/${prefixAdmin}/settings/general?_method=PATCH`
+      method="POST"
+      enctype="multipart/form-data"
+    )
     div(class="form-group")
       label(for="websiteName") Tên website
       input(

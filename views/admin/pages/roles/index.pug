@@ -2,13 +2,14 @@ extends ../../layouts/default.pug
 
 block main
   h1(class="mb-4") Nhóm quyền
-
-  .card.mb-3
+  if(role.permission.includes("roles_view"))
+    .card.mb-3
     .card-header Danh sách
     .card-body
       .row
         .col-8
-        .col-4.text-right
+        if(role.permission.includes("roles_add"))
+          .col-4.text-right
           a(
             href=`/${prefixAdmin}/roles/create`
             class="btn btn-outline-success"
@@ -35,15 +36,17 @@ block main
                         class="btn btn-secondary btn-sm"
                         href=`/${prefixAdmin}/roles/detail/${item.id}`
                       ) Chi tiết
-                      a(
+                      if(role.permission.includes("roles_edit"))
+                        a(
                         class="btn btn-warning btn-sm ml-1"
                         href=`/${prefixAdmin}/roles/edit/${item.id}`
-                      ) Sửa
-                      button(
-                        button-delete-permanent
-                        link=`/${prefixAdmin}/roles/delete/${item.id}`
-                        class="btn btn-danger btn-sm ml-1" 
-                      ) Xóa
+                        ) Sửa
+                      if(role.permission.includes("roles_delete"))
+                        button(
+                          button-delete-permanent
+                          link=`/${prefixAdmin}/roles/delete/${item.id}`
+                          class="btn btn-danger btn-sm ml-1" 
+                        ) Xóa
               else
                 tr
                   td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo.

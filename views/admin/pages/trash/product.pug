@@ -14,43 +14,47 @@ block main
     .card-header Đối tượng đã xóa
     .card-body
       +trash-options()
-  table.table.table-hover.table-sm
-    if(products.length>0)
-      thead
-        tr
-          th
-            input(type="checkbox" name="checkAll")
-          th STT
-          th Hình ảnh
-          th Tiêu đề
-          th Xóa bởi
-          th Hành động
-      tbody 
-      each item, index in products
-        tr 
-          td 
-            input(type="checkbox" name="checkItem" value=item._id)
-          td #{index+1}
-          td
-            img(
-              src=item.thumbnail
-              alt=item.title
-              width="80px"
-              height="auto"
-            )
-          td #{item.title}
-          td #{item.deletedByFullName}
-          td
-            button(class="btn btn-success btn-sm" 
-            link=`/${prefixAdmin}/trash/products/retrieve/${item._id}`
-            button-retrieve
-            ) Khôi phục
+  if(role.permission.includes("trash_view"))
+    table.table.table-hover.table-sm
+      if(products.length>0)
+        thead
+          tr
+            th
+              input(type="checkbox" name="checkAll")
+            th STT
+            th Hình ảnh
+            th Tiêu đề
+            th Xóa bởi
+            if(role.permission.includes("trash_update"))
+              th Hành động
+        tbody 
+        each item, index in products
+          tr 
+            td 
+              input(type="checkbox" name="checkItem" value=item._id)
+            td #{index+1}
+            td
+              img(
+                src=item.thumbnail
+                alt=item.title
+                width="80px"
+                height="auto"
+              )
+            td #{item.title}
+            td #{item.deletedByFullName}
 
-            button(
-            class="btn btn-danger btn-sm ml-1"
-            button-delete-permanent
-            link=`/${prefixAdmin}/trash/products/delete-permanent/${item._id}`
-            ) Xóa vinh vien
-    else
-      p(class="text-center") Chưa có sản phẩm nào bị xóa
-  +pagination(pagination)
+            if(role.permission.includes("trash_update"))
+              td
+                button(class="btn btn-success btn-sm" 
+                link=`/${prefixAdmin}/trash/products/retrieve/${item._id}`
+                button-retrieve
+                ) Khôi phục
+
+                button(
+                class="btn btn-danger btn-sm ml-1"
+                button-delete-permanent
+                link=`/${prefixAdmin}/trash/products/delete-permanent/${item._id}`
+                ) Xóa vinh vien
+      else
+        p(class="text-center") Chưa có sản phẩm nào bị xóa
+    +pagination(pagination)

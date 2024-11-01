@@ -9,7 +9,7 @@
       if(role.permission.includes("products-category_view"))      
         li
           a(href=`/${prefixAdmin}/products-category`) danh mục sản phẩm
-      //- if(role.permission.includes("trash_view"))
+      if(role.permission.includes("trash_view"))
       li
         a(href=`/${prefixAdmin}/trash/products`) thùng rác
       if(role.permission.includes("roles_view"))

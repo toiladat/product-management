@@ -1,7 +1,7 @@
 const Account = require("../../model/account.model");
 const Product = require("../../model/product.model");
-const Role = require('../../model/roles.model');
-const productCategory = require('../../model/product-category.model');
+const Role = require("../../model/roles.model");
+const productCategory = require("../../model/product-category.model");
 const paginationHelpers = require("../../helpers/pagination.helper");
 //[GET]/admin/trash/products
 module.exports.product = async (req, res) => {
@@ -25,7 +25,7 @@ module.exports.product = async (req, res) => {
     find.status = req.query.status;
 
   // pagination
-  const pagination = await paginationHelpers(req, find, 'product');
+  const pagination = await paginationHelpers(req, find, "product");
   // end pagination
 
   // tim kiem theo object find, limit, skip
@@ -34,62 +34,68 @@ module.exports.product = async (req, res) => {
     .skip(pagination.skipElement);
 
   for (item of products) {
-
     if (item.deletedBy) {
       const deletedBy = await Account.findOne({
-        _id: item.deletedBy
-      })
-      item.deletedByFullName = deletedBy.fullName
+        _id: item.deletedBy,
+      });
+      item.deletedByFullName = deletedBy.fullName;
     }
   }
-  res.render('admin/pages/trash/product.pug', {
+  res.render("admin/pages/trash/product.pug", {
     products: products,
     nameInput: nameInput,
-    pagination: pagination
-  })
+    pagination: pagination,
+  });
 };
 //[PATCH] '/admin/trash/products/retrieve/:id'
 module.exports.retrieveProduct = async (req, res) => {
-  try {
-    const id = req.params.id
+  if (res.locals.role.permission.includes("trash_update")) {
+    try {
+      const id = req.params.id;
 
-    await Product.updateOne({
-      _id: id
-    }, {
-      deleted: false,
-    })
-    req.flash("success", "Khoi phuc thanh cong")
-    res.json({
-      code: 200
-    })
-  } catch {
-    req.flash("error", "San pham khong ton tai")
-    res.redirect("back")
+      await Product.updateOne(
+        {
+          _id: id,
+        },
+        {
+          deleted: false,
+        }
+      );
+      req.flash("success", "Khoi phuc thanh cong");
+      res.json({
+        code: 200,
+      });
+    } catch {
+      req.flash("error", "San pham khong ton tai");
+      res.redirect("back");
+    }
   }
-}
+};
 //[DELETE] /admin/trash/products/delete-permanent/:id
 module.exports.deleteProdcutPermanent = async (req, res) => {
-  try {
-    const id = req.params.id
-    await Product.deleteOne({
-      _id: id
-    })
-    req.flash("success", "Xoa san pham thanh cong")
-    res.json({
-      code: 200
-    })
-  } catch {
-    req.flash("error", "Xoa that bai")
-    res.redirect("back")
+  if (res.locals.role.permission.includes("trash_update")) {
+    try {
+      const id = req.params.id;
+      await Product.deleteOne({
+        _id: id,
+      });
+      req.flash("success", "Xoa san pham thanh cong");
+      res.json({
+        code: 200,
+      });
+    } catch {
+      req.flash("error", "Xoa that bai");
+      res.redirect("back");
+    }
   }
-}
+};
 
 //[GET]/admin/trash/product-category
 module.exports.productCategory = async (req, res) => {
   let nameInput = "";
   const find = {
-    deleted: true
-  }
+    deleted: true,
+  };
   // neu co keyword tren url
   if (req.query.keyword) {
     // tao ma regex theo tieu chi tuong duoi
@@ -100,7 +106,7 @@ module.exports.productCategory = async (req, res) => {
   }
 
   // pagination
-  const pagination = await paginationHelpers(req, find, 'category');
+  const pagination = await paginationHelpers(req, find, "category");
 
   // end pagination
   const categories = await productCategory
@@ -108,64 +114,71 @@ module.exports.productCategory = async (req, res) => {
     .limit(pagination.limitElement)
     .skip(pagination.skipElement);
   for (item of categories) {
-
     if (item.deletedBy) {
       const deletedBy = await Account.findOne({
-        _id: item.deletedBy
-      })
-      item.deletedByFullName = deletedBy.fullName
+        _id: item.deletedBy,
+      });
+      item.deletedByFullName = deletedBy.fullName;
     }
   }
 
-  res.render('admin/pages/trash/product-category.pug', {
+  res.render("admin/pages/trash/product-category.pug", {
     categories: categories,
     pagination: pagination,
-    nameInput: nameInput
-  })
+    nameInput: nameInput,
+  });
 };
 //[PATCH] /admin/trash/product-category/retrieve/:id
 module.exports.retrieveProductCategory = async (req, res) => {
-  try {
-    const id = req.params.id
-    const currCategory = await productCategory.findOne({
-      _id: id
-    }).select('parent_id')
-    if (currCategory.parent_id != '') {
-      const parentCategory = await productCategory.findOne({
-        _id: currCategory.parent_id
-      })
-      if (parentCategory.deleted) {
-        req.flash("error", `Danh mục cha là ${parentCategory.title} đã bị xóa`)
-        res.json({
-          code: 400
+  if (res.locals.role.permission.includes("trash_update")) {
+    try {
+      const id = req.params.id;
+      const currCategory = await productCategory
+        .findOne({
+          _id: id,
         })
-        return
+        .select("parent_id");
+      if (currCategory.parent_id != "") {
+        const parentCategory = await productCategory.findOne({
+          _id: currCategory.parent_id,
+        });
+        if (parentCategory.deleted) {
+          req.flash(
+            "error",
+            `Danh mục cha là ${parentCategory.title} đã bị xóa`
+          );
+          res.json({
+            code: 400,
+          });
+          return;
+        }
       }
+
+      await productCategory.updateOne(
+        {
+          _id: id,
+        },
+        {
+          deleted: false,
+        }
+      );
+      req.flash("success", "Khoi phuc thanh cong");
+      res.json({
+        code: 200,
+      });
+    } catch {
+      req.flash("error", "Danh Muc khong ton tai");
+      res.redirect("back");
     }
-
-
-    await productCategory.updateOne({
-      _id: id
-    }, {
-      deleted: false,
-    })
-    req.flash("success", "Khoi phuc thanh cong")
-    res.json({
-      code: 200
-    })
-  } catch {
-    req.flash("error", "Danh Muc khong ton tai")
-    res.redirect("back")
   }
-}
-
+};
 
 //[GET]/admin/trash/accounts
 module.exports.accounts = async (req, res) => {
   let nameInput = "";
   const find = {
-    deleted: true
-  }
+    deleted: true,
+  };
   // neu co keyword tren url
   if (req.query.keyword) {
     // tao ma regex theo tieu chi tuong duoi
@@ -175,59 +188,62 @@ module.exports.accounts = async (req, res) => {
     nameInput = req.query.keyword;
   }
   // pagination
-  const pagination = await paginationHelpers(req, find, 'account');
+  const pagination = await paginationHelpers(req, find, "account");
   // end pagination
-  const accounts = await Account
-    .find(find)
+  const accounts = await Account.find(find)
     .limit(pagination.limitElement)
     .skip(pagination.skipElement);
   for (const account of accounts) {
     const inforRole = await Role.findOne({
-      _id: account.role_id
-    }).select('title')
-    account.roleTitle = inforRole.title
+      _id: account.role_id,
+    }).select("title");
+    account.roleTitle = inforRole.title;
   }
-  res.render('admin/pages/trash/accounts.pug', {
+  res.render("admin/pages/trash/accounts.pug", {
     accounts: accounts,
     pagination: pagination,
-    nameInput: nameInput
-  })
+    nameInput: nameInput,
+  });
 };
 //[PATCH]/admin/trash/accounts/retrieve/:id
 module.exports.retrieveAccounts = async (req, res) => {
-  try {
-    const id = req.params.id
+  if (res.locals.role.permission.includes("trash_update")) {
+    try {
+      const id = req.params.id;
 
-    await Account.updateOne({
-      _id: id
-    }, {
-      deleted: false,
-    })
-    req.flash("success", "Khoi phuc thanh cong")
-    res.json({
-      code: 200
-    })
-  } catch {
-    req.flash("error", "Tai khoan khong ton tai")
-    res.redirect("back")
+      await Account.updateOne(
+        {
+          _id: id,
+        },
+        {
+          deleted: false,
+        }
+      );
+      req.flash("success", "Khoi phuc thanh cong");
+      res.json({
+        code: 200,
+      });
+    } catch {
+      req.flash("error", "Tai khoan khong ton tai");
+      res.redirect("back");
+    }
   }
-}
+};
 //[DELETE]/admin/trash/accounts/delete-permanent
 module.exports.deleteAccountPermanent = async (req, res) => {
-  if (res.locals.role.permission.includes("accounts_delete")) {
+  if (res.locals.role.permission.includes("trash_update")) {
     try {
-      const id = req.params.id
+      const id = req.params.id;
       await Account.deleteOne({
-        _id: id
-      })
-      req.flash("success", "Xoa tài khoản thanh cong")
+        _id: id,
+      });
+      req.flash("success", "Xoa tài khoản thanh cong");
       res.json({
-        code: 200
-      })
+        code: 200,
+      });
     } catch {
-      req.flash("error", "Xoa tài khoản that bai")
-      res.redirect("back")
+      req.flash("error", "Xoa tài khoản that bai");
+      res.redirect("back");
     }
-
   }
-}
+};

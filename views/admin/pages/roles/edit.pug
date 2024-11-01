@@ -2,11 +2,11 @@ extends ../../layouts/default.pug
 
 block main
   h1(class="mb-4") #{pageTitle}
-
-  form(
-    action=`/${prefixAdmin}/roles/edit/${record.id}?_method=PATCH`
-    method="POST"
-  )
+  if(role.permission.includes("roles_edit"))
+    form(
+      action=`/${prefixAdmin}/roles/edit/${record.id}?_method=PATCH`
+      method="POST"
+    )
     div(class="form-group")
       label(for="title") Tiêu đề
       input(

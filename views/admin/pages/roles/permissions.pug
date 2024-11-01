@@ -1,14 +1,13 @@
 extends ../../layouts/default.pug
 block main
   h1.mb-4 Phân quyền
-
-  if (records)
+  if(role.permission.includes("roles_permission"))
+    if (records)
     div.text-right
       button.btn.btn-primary.mb-3(
         type="submit"
         button-submit=`/${prefixAdmin}/roles/permissions`
       ) Cập nhật
-
     table.table.table-hover.table-sm(table-permissions)
       thead
         tr
