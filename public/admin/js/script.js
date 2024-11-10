@@ -148,7 +148,7 @@ if (boxActions) {
         })
     } else
       alert("nhap thong tin")
-
+ 
   })
 }
 // end box actions

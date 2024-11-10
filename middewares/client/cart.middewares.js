@@ -14,7 +14,8 @@ module.exports=async(req,res,next)=>{
   }
   else{
     const cart= await Cart.findOne({_id:req.cookies.cartId})
-    res.locals.totalProducts=cart.products.length || 0
+    // cart null hoặc products undefined thì = 0
+    res.locals.totalProducts = (cart?.products?.length ?? 0);
   }
   
 

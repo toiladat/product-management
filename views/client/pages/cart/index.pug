@@ -4,57 +4,58 @@ block main
   .container.my-3
     .row
       .col-12
-        table(class="table table-bordered" cart )
-          thead
-            tr
-              th
-                input(type="checkbox" name="checkAll")
-              th Chọn
-              th STT
-              th Ảnh
-              th Tên
-              th Giá
-              th Số lượng
-              th Tổng tiền
-              th Hành động
-          tbody
-            if(cartDetail.products.length > 0)
+        form(method="post" action='/checkout')
+
+          if(cartDetail.products.length > 0)
+            table(class="table table-bordered" cart )
+              thead
+              tr
+                th
+                  input(type="checkbox" name="checkAll")
+                th STT
+                th Ảnh
+                th Tên
+                th Giá
+                th Số lượng
+                th Tổng tiền
+                th Hành động
+              tbody
               each product, index in cartDetail.products
-                tr
-                  td 
-                    input(type="checkbox" name="checkItem" value=product.productId)
-                  td #{index + 1}
-                  td
-                    img(
-                      src=product.productInfo.thumbnail
-                      alt=product.productInfo.title
-                      width="80px"
-                    )
-                  td
-                    a(
-                      href=`/products/detail/${product.productInfo.slugTitle}`
-                    ) #{product.productInfo.title}
-                  td #{product.productInfo.newPrice}$
-                  td
-                    input(
-                      type="number"
-                      name="quantity"
-                      value=product.quantity
-                      min="1"
-                      item-id=product.productId
-                      style="width: 60px"
-                    )
-                  td #{product.totalPrice}$
-                  td
-                    a(
-                      href=`/cart/delete/${product.productId}`
-                      class="btn btn-danger"
-                    ) Xóa
-            else
-              p Chưa có sản phẩm nào trong giỏ hàng.
+                  tr
+                    td 
+                      input(type="checkbox" name="checkItem[]" value=product.productId)
+                    td #{index + 1}
+                    td
+                      img(
+                        src=product.productInfo.thumbnail
+                        alt=product.productInfo.title
+                        width="80px"
+                      )
+                    td
+                      a(
+                        href=`/products/detail/${product.productInfo.slugTitle}`
+                      ) #{product.productInfo.title}
+                    td #{product.productInfo.newPrice}$
+                    td
+                      input(
+                        type="number"
+                        name=`quantity[${product.productId}]`
+                        value=product.quantity
+                        min="1"
+                        item-id=product.productId
+                        style="width: 60px"
+                      )
+                    td #{product.totalPrice}$
+                    td
+                      a(
+                        href=`/cart/delete/${product.productId}`
+                        class="btn btn-danger"
+                      ) Xóa
+          else
+            p Chưa có sản phẩm nào trong giỏ hàng.
 
-        if(cartDetail.products.length > 0)
-          h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
+          if(cartDetail.products.length > 0)
+            //- h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
 
-          div(class="text-right mt-3")
-            a(href="/checkout" class="btn btn-success") TIẾN HÀNH ĐẶT HÀNG
+            div(class="text-right mt-3")
+              button(class="btn btn-success" type='submit' ) TIẾN HÀNH ĐẶT HÀNG
