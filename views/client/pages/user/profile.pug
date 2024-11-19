@@ -1,4 +1,15 @@
 extends ../../layouts/default.pug
 block main
+
+  nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    ul.navbar-nav
+      li.nav-item.active
+        a.nav-link(href='#') Địa chỉ nhận hàng
+      li.nav-item
+        a.nav-link(href='#') Cập nhật thông tin
+      li.nav-item
+        a.nav-link(href='#') Đổi mật khẩu
+
+
   h1 #{user.fullName}
   h4  làm reset password, chọn địa chỉ nhận hàng, cap nhat thong tin (avatar, ten, sdt,...)

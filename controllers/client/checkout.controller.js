@@ -41,43 +41,51 @@ module.exports.index = async (req, res) => {
 //[POST] /checkout/oder
 module.exports.orderPost = async (req, res) => {
   const cartId = req.cookies.cartId;
+  const inforProducts=JSON.parse(req.body.inforProducts)
+  delete req.body['inforProducts']
   const userInfor = req.body;
+
   const orderData = {
     userInfor: userInfor,
     products: [],
   };
   // thanh tooán toàn bộ giỏ hàng
   // note.txt
-  const cart = await Cart.findOne({
-    _id: cartId,
-  });
-  for (const product of cart.products) {
+
+  for (const product of inforProducts) {
     const productInfor = await Product.findOne({
-      _id: product.productId,
+      _id: product.id,
     }).select("price discountPercentage");
 
     orderData.products.push({
-      productId: product.productId,
+      productId: product.id,
       price: productInfor.price,
       discountPercentage: productInfor.discountPercentage,
       quantity: product.quantity,
     });
   }
+
   const newOrder = new Order(orderData);
   // sau khi luu tu render ra order._id
   await newOrder.save();
 
   // xoa thong tin trong gio hang
   // xoa san pham dung for de pull id hoac tim hieu pullAll
-  await Cart.updateOne(
-    {
-      _id: cartId,
-    },
-    {
-      products: [],
-    }
-  );
-  // khong dung res.render
+  for(const product of inforProducts){
+    await Cart.updateOne(
+      {
+        _id: cartId,
+      },
+      {
+        $pull: {
+          products: {
+            productId: product.id,
+          },
+        },
+      }
+    );
+  }
+  // khong dung res.render 
   res.redirect(`/checkout/success/${newOrder._id}`);
 };
 

@@ -66,9 +66,20 @@ if (showAlert) {
 }
 // end show alert
 
-// order-process
-const orderProcess = document.querySelector("[order-process]");
-if (orderProcess) {
-  orderProcess.addEventListener("click");
+//order process
+const inputData = document.querySelectorAll(
+  "[cart] input[product-id][product-quantity]"
+);
+if(inputData){
+  const inforProducts=[]
+  inputData.forEach((item) => {
+    const id =item.getAttribute('product-id')
+    const quantity=item.getAttribute('product-quantity')
+    inforProducts.push({
+      id:id,
+      quantity:quantity
+    })
+  })
+  document.querySelector('[product-ids]').value = JSON.stringify(inforProducts);
 }
-// end order-process
+//end order process

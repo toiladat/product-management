@@ -31,7 +31,7 @@ block main
                   td #{product.productInfo.priceNew}$
                   td #{product.quantity}
                   td #{product.totalPrice}$
-
+                  input(type="hidden" product-id=product.productId product-quantity=product.quantity)
           h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
 
       .row
@@ -68,6 +68,7 @@ block main
                   name="address"
                   required
                 )
+                input(type="hidden" name='inforProducts' product-ids)
               div(class="form-group")
                 button(
                   type="submit"

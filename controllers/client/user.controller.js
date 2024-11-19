@@ -218,7 +218,7 @@ module.exports.resetPasswordPatch = async (req, res) => {
 }
 
 //[GET] /user/profile
-
+ 
 module.exports.profile=async(req,res)=>{
   res.render('client/pages/user/profile.pug')
 }
